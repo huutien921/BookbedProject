@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="account.statusOrder" extends="user_template_search"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/order.jsp"></put-attribute>
+	</definition>
+		<definition name="account.profile" extends="user_template_search"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/profile.jsp"></put-attribute>
+	</definition>
+	<definition name="account.surplus" extends="user_template_search"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/surplus.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>

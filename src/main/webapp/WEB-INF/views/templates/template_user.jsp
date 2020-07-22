@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html;  charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,8 +51,8 @@
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 		id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Vacation<span>Travel
-					Agency</span></a>
+		<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png" style="width: 150px" height="50px">
+			
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#ftco-nav" aria-controls="ftco-nav"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -61,25 +62,37 @@
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="index.html"
-						class="nav-link">Home</a></li>
-					<li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+						class="nav-link"><spring:message code="nav.home"></spring:message></a></li>
+					<li class="nav-item"><a href="about.html" class="nav-link"><spring:message
+								code="nav.about"></spring:message></a></li>
 					<li class="nav-item"><a href="destination.html"
-						class="nav-link">Destination</a></li>
-					<li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-					<li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-				<li class="nav-item dropdown">
-      <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Languages
-      </a>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-        <a class="dropdown-item" href="https://v4-alpha.getbootstrap.com/">v4 Alpha 6</a>
-        <a class="dropdown-item" href="https://getbootstrap.com/docs/3.3/">v3.3.7</a>
-        <a class="dropdown-item" href="https://getbootstrap.com/2.3.2/">v2.3.2</a>
-      </div>
-    </li>
+						class="nav-link"><spring:message code="nav.promotions"></spring:message></a></li>
+					<li class="nav-item"><a href="blog.html" class="nav-link"><spring:message
+								code="nav.blog"></spring:message></a></li>
+					<li class="nav-item"><a href="contact.html" class="nav-link"><spring:message
+								code="nav.contact"></spring:message></a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-item nav-link dropdown-toggle mr-md-2" href="#"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<spring:message code="dropdown.language"></spring:message>
+					</a>
+						<div class="dropdown-menu dropdown-menu-right"
+							aria-labelledby="bd-versions">
+							<a class="dropdown-item"
+								href="${pageContext.request.contextPath }${requestScope['javax.servlet.forward.request_uri']}?lang=vi"><spring:message
+									code="dropdown.language.vietnamese"></spring:message></a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath }${requestScope['javax.servlet.forward.request_uri']}?lang=us"><spring:message
+									code="dropdown.language.english"></spring:message></a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath }${requestScope['javax.servlet.forward.request_uri']}?lang=fr"><spring:message
+									code="dropdown.language.french"></spring:message></a>
 
-					<li class="nav-item cta"><a href="#" class="nav-link">Book
-							Now</a></li>
+						</div></li>
+
+					<li class="nav-item cta"><a href="#" class="nav-link"><spring:message
+								code="nav.login"></spring:message></a></li>
+					
 
 				</ul>
 			</div>
@@ -179,10 +192,8 @@
 			<circle class="path" cx="24" cy="24" r="22" fill="none"
 				stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
 	</div>
-
-	<script
-		src="${pageContext.request.contextPath }/resources/user/js/jquery.min.js"></script>
-	<script
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
 		src="${pageContext.request.contextPath }/resources/user/js/jquery-migrate-3.0.1.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath }/resources/user/js/popper.min.js"></script>
@@ -206,10 +217,7 @@
 		src="${pageContext.request.contextPath }/resources/user/js/bootstrap-datepicker.js"></script>
 	<script
 		src="${pageContext.request.contextPath }/resources/user/js/scrollax.min.js"></script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-	<script
-		src="${pageContext.request.contextPath }/resources/user/js/google-map.js"></script>
+
 	<script
 		src="${pageContext.request.contextPath }/resources/user/js/main.js"></script>
 

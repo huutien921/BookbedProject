@@ -8350,7 +8350,7 @@ h1, h2, h3, h4, h5,
     width: 100%;
     height: inherit !important;
     font-size: 18px;
-    border: none !important;
+   
     color: rgba(255, 255, 255, 0.4) !important;
     background: transparent !important;
     -webkit-border-radius: 0;
@@ -8630,7 +8630,7 @@ textarea.form-control {
   font-size: 24px; }
 
 .ftco-section {
-  padding: 7em 0;
+  padding: 5em 0;
   position: relative;
   width: 100%; }
   @media (max-width: 767.98px) {
@@ -9490,3 +9490,7 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+    /*message validation form search*/
+    .red-border{
+    border: 1px solid red;
+}

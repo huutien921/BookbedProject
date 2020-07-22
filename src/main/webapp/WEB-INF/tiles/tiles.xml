@@ -8,4 +8,7 @@
 	<definition name="user_template" template="/WEB-INF/views/templates/template_user.jsp">
 		<put-attribute name="content" value=""></put-attribute>
 	</definition>
+	<definition name="user_template_search" template="/WEB-INF/views/templates/template_user_search.jsp">
+		<put-attribute name="content" value=""></put-attribute>
+	</definition>
 </tiles-definitions>

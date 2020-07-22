@@ -14,9 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BookbedProject</name>
 	<description>Demo project for Spring Boot</description>
-	<properties>
-		<java.version>11</java.version>
-	</properties>
+	<packaging>war</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
