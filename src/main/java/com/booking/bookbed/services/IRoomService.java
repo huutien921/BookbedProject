@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.booking.bookbed.entities.Room;
-import com.booking.bookbed.entities.RoomEntity;
+import com.booking.bookbed.modelviews.RoomEntity;
 
 public interface IRoomService {
 	public Iterable<Room> findAll();

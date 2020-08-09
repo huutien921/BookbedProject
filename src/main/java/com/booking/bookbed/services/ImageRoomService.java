@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.booking.bookbed.entities.ImageRoom;
-import com.booking.bookbed.entities.ImageRoomEntity;
+import com.booking.bookbed.modelviews.ImageRoomEntity;
 import com.booking.bookbed.entities.Room;
 import com.booking.bookbed.repositories.ImageRoomRepository;
 

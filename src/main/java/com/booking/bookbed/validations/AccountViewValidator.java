@@ -2,8 +2,7 @@ package com.booking.bookbed.validations;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.booking.bookbed.entities.Account;
-import com.booking.bookbed.entities.AccountView;
+import com.booking.bookbed.modelviews.AccountView;
 
 import org.springframework.stereotype.Component;
 

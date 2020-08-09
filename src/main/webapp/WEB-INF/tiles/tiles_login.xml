@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="account.login" extends="user_template_login"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/login.jsp"></put-attribute>
+	</definition>
+	<definition name="account.register" extends="user_template_login"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/register.jsp"></put-attribute>
+	</definition>
+	<definition name="account.recovery" extends="user_template_login"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/recovery.jsp"></put-attribute>
+	</definition>
+	<definition name="account.resetPassword" extends="user_template_login"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/resetPassword.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>

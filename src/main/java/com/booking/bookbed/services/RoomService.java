@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.booking.bookbed.entities.ImageRoom;
 import com.booking.bookbed.entities.Room;
-import com.booking.bookbed.entities.RoomEntity;
+import com.booking.bookbed.modelviews.RoomEntity;
 import com.booking.bookbed.repositories.RoomRepository;
 
 @Service("romService")

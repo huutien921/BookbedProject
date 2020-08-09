@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,12 +33,14 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/user/css/flaticon.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/user/css/icomoon.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/user/search/style.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+		integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 	<script src="${pageContext.request.contextPath}/resources/user/js/jquery.min.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-	
+
 			var pathname = $(location).attr('href');
 			pathname = pathname.replace('#searchR', '');
 			pathname = pathname.replace('#', '');
@@ -83,26 +86,28 @@
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="index.html" class="nav-link">
+					<li class="nav-item active"><a href="${pageContext.request.contextPath }/home/index"
+							class="nav-link">
 							<spring:message code="nav.home"></spring:message>
 						</a></li>
-					<li class="nav-item"><a href="about.html" class="nav-link">
+					<li class="nav-item"><a href="${pageContext.request.contextPath }/about" class="nav-link">
 							<spring:message code="nav.about"></spring:message>
 						</a></li>
-					<li class="nav-item"><a href="destination.html" class="nav-link">
+					<li class="nav-item"><a href="${pageContext.request.contextPath }/promotions" class="nav-link">
 							<spring:message code="nav.promotions"></spring:message>
 						</a></li>
-					<li class="nav-item"><a href="blog.html" class="nav-link">
+					<li class="nav-item"><a href="${pageContext.request.contextPath }/blog" class="nav-link">
 							<spring:message code="nav.blog"></spring:message>
 						</a></li>
-					<li class="nav-item"><a href="contact.html" class="nav-link">
+					<li class="nav-item"><a href="${pageContext.request.contextPath }/contact" class="nav-link">
 							<spring:message code="nav.contact"></spring:message>
 						</a></li>
-					<li class="nav-item dropdown" ><a class="nav-item nav-link dropdown-toggle mr-md-2" href="#"
+					<li class="nav-item dropdown"><a class="nav-item nav-link dropdown-toggle mr-md-2" href="#"
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<spring:message code="dropdown.language"></spring:message>
 						</a>
-						<div class="dropdown-menu dropdown-menu-right" id="dropdownLanguage" aria-labelledby="bd-versions">
+						<div class="dropdown-menu dropdown-menu-right" id="dropdownLanguage"
+							aria-labelledby="bd-versions">
 							<a class="dropdown-item" href="#" id="vi">
 								<spring:message code="dropdown.language.vietnamese"></spring:message>
 							</a> <a class="dropdown-item" id="us" href="#">
@@ -113,23 +118,47 @@
 
 						</div>
 					</li>
+					<sec:authorize access="!isAuthenticated()">
+						<li class="nav-item cta"><a href="${pageContext.request.contextPath }/account/login"
+								class="nav-link">
+								<i class="fas fa-sign-in-alt"></i>
+								<spring:message code="nav.login"></spring:message>
+							</a></li>
+					</sec:authorize>
+					<sec:authorize access="isAuthenticated()">
+						<li class="nav-item cta dropdown"><a class="nav-item nav-link dropdown-toggle mr-md-2" href="#"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="far fa-user-circle"></i>
+								<sec:authentication property="name" />
+								<!-- <spring:message code="nav.login"></spring:message> -->
+							</a>
+							<div class="dropdown-menu " aria-labelledby="dropdownMenu2">
+								<a href="${pageContext.request.contextPath }/user/account/profile"><button
+										class="dropdown-item" type="button"><i class="fas fa-user-cog"></i>
+										<spring:message code="tag.account.change" /></button></a>
+								<a href="${pageContext.request.contextPath }/user/account/surplus"><button
+										class="dropdown-item" type="button"><i
+											class="fas fa-credit-card"></i>
+										<spring:message code="tag.account.surplus" /> </button></a>
+								<a href="${pageContext.request.contextPath }/user/account/statusOrder"><button
+										class="dropdown-item" type="button"><i class="far fa-file-alt"></i>
+										<spring:message code="tag.account.booked" /></button></a>
+								<a href="${pageContext.request.contextPath}/user/account/purchase/list"><button
+										class="dropdown-item" type="button"><i
+											class="fas fa-clipboard-list"></i>
+										<spring:message code="tag.account.purchase" /> </button></a>
+								<a href="${pageContext.request.contextPath}/user/account/editEmailNotification"><button
+										class="dropdown-item" type="button"><i
+											class="far fa-envelope"></i>
+										<spring:message code="tag.account.promotion" /> </button></a>
+								<a href="${pageContext.request.contextPath }/account/logout"><button
+										class="dropdown-item" type="button"><i class="fas fa-power-off"></i>
+										<spring:message code="tag.account.logout" /></button></a>
+							</div>
+						</li>
 
-				
-						<li class="nav-item cta dropdown" ><a class="nav-item nav-link dropdown-toggle mr-md-2" href="#"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							huu tien
-							<!-- <spring:message code="nav.login"></spring:message> -->
-						</a>
-						<div class="dropdown-menu " aria-labelledby="dropdownMenu2">
-							<button class="dropdown-item" type="button">chinh su ho so</button>
-							<button class="dropdown-item" type="button">so du cua toi</button>
-							<button class="dropdown-item" type="button">danh sach giao dich</button>
-							<button class="dropdown-item" type="button">dat cho cua toi</button>
-							<button class="dropdown-item" type="button">Khuyen mai</button>
-							<button class="dropdown-item" type="button">Dang xuat</button>
+					</sec:authorize>
 
-						</div>
-					</li>
 
 
 				</ul>

@@ -2,12 +2,12 @@ package com.booking.bookbed.services;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import com.booking.bookbed.entities.Account;
 import com.booking.bookbed.entities.UserGroup;
 
-public interface IAccountService {
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface IAccountService extends UserDetailsService  {
 	public Account findById(int id);
 
 	public Iterable<Account> findAll();
@@ -30,4 +30,5 @@ public interface IAccountService {
 	public Account findByUsernameAndStatus(String username, boolean status);
 	
 	public Account findByUsername(String username);
+	public Account findByEmail(String email);
 }

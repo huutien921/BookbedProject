@@ -1,15 +1,3 @@
-/*package com.booking.bookbed.repositories;
-
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-import com.online.booking.entities.Account;
-
-@Repository("accountRepository")
-public interface AccountRepository extends  CrudRepository<Account,Integer>{
-	
-}
-*/
 
 package com.booking.bookbed.repositories;
 
@@ -57,4 +45,6 @@ public interface AccountRepository extends  CrudRepository<Account,Integer>{
 	
 	@Query("from Account where username =:username")
 	public Account findByUsername(@Param("username") String username);
+	@Query("from Account where email =:email and status = true")
+	public Account findByEmail(@Param("email") String email);
 }

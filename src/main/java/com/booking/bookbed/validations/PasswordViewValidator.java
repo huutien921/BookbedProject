@@ -2,7 +2,7 @@ package com.booking.bookbed.validations;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.booking.bookbed.entities.PasswordView;
+import com.booking.bookbed.modelviews.PasswordView;
 import com.booking.bookbed.services.AccountService;
 
 import org.mindrot.jbcrypt.BCrypt;

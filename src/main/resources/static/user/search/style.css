@@ -142,12 +142,12 @@ sup {
   top: -.5em; }
 
 a {
-  color: #78d5ef;
+  color: #0770cd;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects; }
   a:hover {
-    color: #34c0e7;
+    color: #0770cd;
     text-decoration: underline; }
 
 a:not([href]):not([tabindex]) {
@@ -8552,6 +8552,7 @@ textarea.form-control {
   background-repeat: no-repeat;
   background-position: center center;
   height: 250px;
+  width: 255px;
   position: relative;
   display: block; }
 

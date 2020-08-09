@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.booking.bookbed.entities.HotelEntity;
-import com.booking.bookbed.entities.SearchInfo;
+import com.booking.bookbed.modelviews.HotelEntity;
+import com.booking.bookbed.modelviews.SearchInfo;
 import com.booking.bookbed.exceptions.HotelNotfoundException;
 import com.booking.bookbed.services.HotelService;
 

@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 
 import com.booking.bookbed.entities.Evaluate;
 import com.booking.bookbed.entities.Hotel;
-import com.booking.bookbed.entities.HotelEntity;
+import com.booking.bookbed.modelviews.HotelEntity;
 import com.booking.bookbed.entities.Room;
-import com.booking.bookbed.entities.SearchInfo;
+import com.booking.bookbed.modelviews.SearchInfo;
 import com.booking.bookbed.repositories.HotelRepository;
 import com.booking.bookbed.helper.CheckHelper;
 import com.booking.bookbed.helper.CheckUrlHelper;

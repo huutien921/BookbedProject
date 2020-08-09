@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -235,7 +234,7 @@ public class PaypalController {
 					Orders orders = orderDetail.getOrders();
 					orders.setPayment(paymentId);
 					orders.setName(payerId);
-					Orders ordersResult = ordersService.save(orders);
+					ordersService.save(orders);
 					String sub = "BookBed - Hotel payment invoice - ";
 					emailHelper.sendMailBooking(orderDetail, Utils.getBaseURL(request),"template_booking_payment.html",sub);
 	

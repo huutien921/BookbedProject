@@ -13,4 +13,10 @@
 	<definition name="account.surplus" extends="user_template_search"> <!-- ke thua template tu my_template -->
 		<put-attribute name="content" value="/WEB-INF/views/user/account/surplus.jsp"></put-attribute>
 	</definition>
+	<definition name="account.editEmailNotification" extends="user_template_search"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/editEmailNotification.jsp"></put-attribute>
+	</definition>
+	<definition name="account.purchase" extends="user_template_search"> <!-- ke thua template tu my_template -->
+		<put-attribute name="content" value="/WEB-INF/views/user/account/purchase.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>

@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 import com.booking.bookbed.entities.Hotel;
-import com.booking.bookbed.entities.HotelEntity;
-import com.booking.bookbed.entities.SearchInfo;
+import com.booking.bookbed.modelviews.HotelEntity;
+import com.booking.bookbed.modelviews.SearchInfo;
 
 public interface IHotelService {
 	public List<String> searchComplete( String address );

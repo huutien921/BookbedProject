@@ -30,6 +30,7 @@ $(document).ready(function(){
 
 </script>
 <div class="container-fluid" style="padding-top: 5em;padding-bottom: 5em;">
+	
 <div class="row justify-content-center" id="message">
 <div class="col-md-6">	<c:if test="${ms == 'payok' }">
 
@@ -95,8 +96,6 @@ $(document).ready(function(){
 		
 		<div class="col-md-10">
 		
-
-
 				<c:forEach var="orderdetai" items="${orderdetails }">
 
 					<c:if test="${orderdetai.checkOutDate > now }">
@@ -108,6 +107,7 @@ $(document).ready(function(){
 									<hr>
 									 <h5 style="text-align: center;">
 										${orderdetai.room.hotel.name }</h5>
+									<h5>Code: <span style="font-weight: bold;">${orderdetai.orders.id}</span></h5>
 
 								</div>
 								<div class="col-md-3 col-sm-6">

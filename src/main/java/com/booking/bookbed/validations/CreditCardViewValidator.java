@@ -1,6 +1,6 @@
 package com.booking.bookbed.validations;
 
-import com.booking.bookbed.entities.CreditCardView;
+import com.booking.bookbed.modelviews.CreditCardView;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

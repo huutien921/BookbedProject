@@ -1,9 +1,7 @@
 package com.booking.bookbed.controller.user;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -14,12 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.booking.bookbed.entities.Account;
@@ -32,7 +31,6 @@ import com.booking.bookbed.helper.CheckUrlHelper;
 import com.booking.bookbed.helper.EmailHelper;
 import com.booking.bookbed.helper.PriceHelper;
 
-import com.booking.bookbed.helper.UploadFileHelper;
 import com.booking.bookbed.helper.Utils;
 import com.booking.bookbed.services.AccountService;
 import com.booking.bookbed.services.OrderDetailService;
@@ -65,7 +63,7 @@ public class BookingController {
 	private OrderDetail orderDetailResult ;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String booking(@RequestParam("roomid") int roomid, @RequestParam("checkin_date") String checkin_date,
+	public String booking(Authentication authentication ,@RequestParam("roomid") int roomid, @RequestParam("checkin_date") String checkin_date,
 			@RequestParam("checkout_date") String checkout_date, @RequestParam("rooms") int rooms, ModelMap map
 
 	) throws MessagingException {
@@ -77,7 +75,7 @@ public class BookingController {
 			long getDiff = dateCheckOut.getTime() - dateCheckIn.getTime();
 			long getDayDiff = TimeUnit.MILLISECONDS.toDays(getDiff);
 		// tinh tien
-			Account account = accountService.findByUsernameAndStatus("tien_user", true);
+			Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
 		Room room =  roomService.findById(roomid);
 		double finalPrice = priceHelper.calculatorPrice(room, rooms, (int) getDayDiff, null);
 			map.put("roomquan", rooms);
@@ -102,13 +100,13 @@ public class BookingController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String booking(@RequestParam("idRoom") int idRoom, @RequestParam("checkIn_date") String checkin,
+	public String booking(Authentication authentication ,@RequestParam("idRoom") int idRoom, @RequestParam("checkIn_date") String checkin,
 			@RequestParam("checkOut_date") String checkout, @RequestParam("rooms") int rooms
 			, @RequestParam("nameStaying") String name, @RequestParam("email") String email,
 			@RequestParam("note") String note,
 			@RequestParam("giftCode") String code ,RedirectAttributes redirectAttributes,HttpServletRequest request ) {
 		boolean result = true;
-		Account account = accountService.findByUsernameAndStatus("tien_user", true);
+		Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
 		if (checkPayatHotelHelper.checkorderdetail(account.getId())) {
 			
 		try {

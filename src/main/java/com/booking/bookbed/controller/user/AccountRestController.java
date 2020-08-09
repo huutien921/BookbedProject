@@ -1,4 +1,5 @@
 package com.booking.bookbed.controller.user;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ import javax.validation.Valid;
 
 import com.booking.bookbed.services.TypeCardService;
 import com.booking.bookbed.entities.Account;
-import com.booking.bookbed.entities.AccountView;
+import com.booking.bookbed.modelviews.AccountView;
 import com.booking.bookbed.entities.CreditCard;
-import com.booking.bookbed.entities.CreditCardView;
-import com.booking.bookbed.entities.PasswordView;
+import com.booking.bookbed.modelviews.CreditCardView;
+import com.booking.bookbed.modelviews.PasswordView;
 import com.booking.bookbed.helper.EmailHelper;
 import com.booking.bookbed.helper.UploadFileHelper;
 import com.booking.bookbed.helper.Utils;
@@ -31,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.Authentication;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,12 +60,12 @@ public class AccountRestController {
     private UploadFileHelper uploadFileHelper ;
     @Autowired
     private CreditCardService creditCardService;
- @Autowired
- private CreditCardViewValidator creditCardViewValidator ;
-    private String username = "tien_user";
+     @Autowired
+    private CreditCardViewValidator creditCardViewValidator ;
+    
 
     @RequestMapping(value = "profile", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> editProfile(HttpServletRequest request, @RequestBody @Valid AccountView accountView,
+    public ResponseEntity<Object> editProfile(Authentication authentication ,HttpServletRequest request, @RequestBody @Valid AccountView accountView,
             BindingResult bindingResult, HttpSession httpSession) {
 
         try {
@@ -76,7 +77,7 @@ public class AccountRestController {
             if (bindingResult.hasErrors()) {
                 return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
             }
-            Account account = accountService.findByUsername(username);
+            Account account = accountService.findByUsername(authentication.getName());
             if (account.getUpdated() != null) {
                 Date now = new Date();
                 long getDiff = now.getTime() - account.getUpdated().getTime();
@@ -98,7 +99,7 @@ public class AccountRestController {
     }
 
     @RequestMapping(value = "code", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> checkCode(@RequestParam("code") String code, HttpSession httpSession) {
+    public ResponseEntity<Object> checkCode(Authentication authentication ,@RequestParam("code") String code, HttpSession httpSession) {
         try {
             if (httpSession.getAttribute("code") == null) {
                 return new ResponseEntity<>("TimeOut", HttpStatus.BAD_REQUEST);
@@ -109,7 +110,7 @@ public class AccountRestController {
                 if (code1.trim() == code.trim() || code1.equals(code.trim())) {
                     if (httpSession.getAttribute("accountInfo") != null) {
                         AccountView accountView = (AccountView) httpSession.getAttribute("accountInfo");
-                        Account account = accountService.findByUsername(username);
+                        Account account = accountService.findByUsername(authentication.getName());
                         account.setFullname(accountView.getFullname());
                         Date birthday = new SimpleDateFormat("dd-mm-yyyy").parse(accountView.getBirthday());
                         account.setBirthday(birthday);
@@ -135,7 +136,7 @@ public class AccountRestController {
 
     }
     @RequestMapping(value = "password", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> editPassword(HttpServletRequest request, @RequestBody @Valid PasswordView passwordView,
+    public ResponseEntity<Object> editPassword(Authentication authentication ,HttpServletRequest request, @RequestBody @Valid PasswordView passwordView,
             BindingResult bindingResult, HttpSession httpSession) {
 
         try {
@@ -147,7 +148,7 @@ public class AccountRestController {
             if (bindingResult.hasErrors()) {
                 return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
             }
-            Account account = accountService.findByUsername(username);
+            Account account = accountService.findByUsername(authentication.getName());
         
 
             httpSession.setAttribute("passwordView", passwordView);
@@ -162,18 +163,17 @@ public class AccountRestController {
     }
 
     @RequestMapping(value = "code/password", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> checkCodePassword(@RequestParam("code") String code, HttpSession httpSession) {
+    public ResponseEntity<Object> checkCodePassword(Authentication authentication ,@RequestParam("code") String code, HttpSession httpSession) {
         try {
             if (httpSession.getAttribute("code") == null) {
                 return new ResponseEntity<>("TimeOut", HttpStatus.BAD_REQUEST);
             } else {
                 String code1 = (String) httpSession.getAttribute("code");
-                System.out.println(code1);
-                System.out.println(code);
+             
                 if (code1.trim() == code.trim() || code1.equals(code.trim())) {
                     if (httpSession.getAttribute("passwordView") != null) {
                         PasswordView passwordView = (PasswordView) httpSession.getAttribute("passwordView");
-                        Account account = accountService.findByUsername(username);
+                        Account account = accountService.findByUsername(authentication.getName());
                       account.setPassword(new BCrypt().hashpw(passwordView.getNewPassword(), BCrypt.gensalt()));
                         accountService.save(account);
                         httpSession.removeAttribute("passwordView");
@@ -195,7 +195,7 @@ public class AccountRestController {
        //change avatar
 	   @RequestMapping(value = "/upload/avatar", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 
-	   public ResponseEntity<Object> fileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+	   public ResponseEntity<Object> fileUpload(Authentication authentication ,@RequestParam("file") MultipartFile file) throws IOException {
         //   String[] typeImages = new String[]{"image/gif", "image/jpeg", "image/png"};
         try {
             List<String>  typeImages = new ArrayList<>();
@@ -207,7 +207,7 @@ public class AccountRestController {
                 return new ResponseEntity<>(file.getOriginalFilename(),HttpStatus.BAD_REQUEST);
             }else{
                 String fileResult = uploadFileHelper.saveFile(file,"user");
-                Account account = accountService.findByUsername(username);
+                Account account = accountService.findByUsername(authentication.getName());
                 account.setAvatar(fileResult);
              accountService.save(account);
                
@@ -224,7 +224,7 @@ public class AccountRestController {
 
        }
        @RequestMapping(value = "credit/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-       public ResponseEntity<Object> creditSave(@RequestBody @Valid CreditCardView creditCardView ,BindingResult bindingResult){
+       public ResponseEntity<Object> creditSave(Authentication authentication ,@RequestBody @Valid CreditCardView creditCardView ,BindingResult bindingResult){
         try {
             creditCardViewValidator.validate(creditCardView, bindingResult);
             if (bindingResult.hasErrors()) {
@@ -234,7 +234,7 @@ public class AccountRestController {
             if (creditCardView.getIdCredit() != null) {
                 creditCard.setId(Integer.parseInt(creditCardView.getIdCredit()));
             }
-            creditCard.setAccount(accountService.findByUsername(username));
+            creditCard.setAccount(accountService.findByUsername(authentication.getName()));
             creditCard.setNameCard(creditCardView.getNameOnCard());
             creditCard.setCardNumber(creditCardView.getCardNumber());
             creditCard.setExpiresOn(creditCardView.getExpireOn());

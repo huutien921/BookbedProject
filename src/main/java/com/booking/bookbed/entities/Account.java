@@ -24,7 +24,6 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "account", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class Account implements java.io.Serializable {
-
 	private Integer id;
 	private String username;
 	private String password;
@@ -46,6 +45,7 @@ public class Account implements java.io.Serializable {
 	private Set<Orders> orderses = new HashSet<Orders>(0);
 	private Set<InvoiceCard> invoiceCards = new HashSet<InvoiceCard>(0);
 	private Set<RoleAccount> roleAccounts = new HashSet<RoleAccount>(0);
+	private Set<VerificationToken> verificationTokens = new HashSet<VerificationToken>(0);
 	private Set<Evaluate> evaluates = new HashSet<Evaluate>(0);
 	private Set<Blog> blogs = new HashSet<Blog>(0);
 	private Set<Hotel> hotelsForIdAcEmployee = new HashSet<Hotel>(0);
@@ -66,9 +66,9 @@ public class Account implements java.io.Serializable {
 	public Account(String username, String password, String fullname, Date birthday, String email, String address,
 			String type, String gender, String avatar, String identitycard, Integer score, Boolean status, Date created,
 			Date updated, Double point, Set<CreditCard> creditCards, Set<Service> services, Set<Orders> orderses,
-			Set<InvoiceCard> invoiceCards, Set<RoleAccount> roleAccounts, Set<Evaluate> evaluates, Set<Blog> blogs,
-			Set<Hotel> hotelsForIdAcEmployee, Set<Report> reports, Set<Panel> panels, Set<Hotel> hotelsForAccountId,
-			Set<Email> emails, Set<Sale> sales) {
+			Set<InvoiceCard> invoiceCards, Set<RoleAccount> roleAccounts, Set<VerificationToken> verificationTokens,
+			Set<Evaluate> evaluates, Set<Blog> blogs, Set<Hotel> hotelsForIdAcEmployee, Set<Report> reports,
+			Set<Panel> panels, Set<Hotel> hotelsForAccountId, Set<Email> emails, Set<Sale> sales) {
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
@@ -89,6 +89,7 @@ public class Account implements java.io.Serializable {
 		this.orderses = orderses;
 		this.invoiceCards = invoiceCards;
 		this.roleAccounts = roleAccounts;
+		this.verificationTokens = verificationTokens;
 		this.evaluates = evaluates;
 		this.blogs = blogs;
 		this.hotelsForIdAcEmployee = hotelsForIdAcEmployee;
@@ -295,6 +296,15 @@ public class Account implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	public Set<VerificationToken> getVerificationTokens() {
+		return this.verificationTokens;
+	}
+
+	public void setVerificationTokens(Set<VerificationToken> verificationTokens) {
+		this.verificationTokens = verificationTokens;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	public Set<Evaluate> getEvaluates() {
 		return this.evaluates;
 	}
@@ -365,4 +375,5 @@ public class Account implements java.io.Serializable {
 	public void setSales(Set<Sale> sales) {
 		this.sales = sales;
 	}
+
 }

@@ -6,6 +6,7 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <script>
   function readURL(input) {
     if (input.files && input.files[0]) {
@@ -83,10 +84,10 @@
         error: function (err) {
           if(err.responseText == "TimeOut"){
             $('#loadCode').css("display","none");
-            $('#messageCode').html("Het thoi gian xac nhan");
+            $('#messageCode').html('<spring:message code="account.confirm.mail.timeOut" />');
           }else{
             $('#loadCodePassword').css("display","none");
-            $('#messageCodePassword').html("Ma xac nhan khong chinh xac");
+            $('#messageCodePassword').html('<spring:message code="account.confirm.mail.incorrect" />');
 
           }
         }
@@ -99,31 +100,39 @@
       var oldPassword = $('#inputPasswordOld').val();
         var newPassword = $('#inputPasswordNew').val();
          var rePassword = $('#inputPasswordRe').val();
+        var result = 0;
          switch ('')
 		{
 		    case oldPassword : {
-		    	 $('#inputPasswordOld').css("border","1px solid red");
-		        return false;
+           $('#inputPasswordOld').css("border","1px solid red");
+           $('#oldPasswordErr').html('<spring:message code="account.password.required" />');
+           result++;
+		        
 		    }
 		    case newPassword : {
-		    	 $('#inputPasswordNew').css("border","1px solid red");
-		    	return false;
+           $('#inputPasswordNew').css("border","1px solid red");
+           $('#newPasswordErr').html('<spring:message code="account.password.required" />');
+           result++;
 		    }
 		    case rePassword : {
-		    	 $('#inputPasswordRe').css("border","1px solid red");
-		    	return false;
+           $('#inputPasswordRe').css("border","1px solid red");
+           $('#rePasswordErr').html('<spring:message code="account.password.required" />');
+           result++;
 		    }
 		   
 		   
     }
-    
+    if (result > 0) {
+      return false;
+    }
     if (!newPassword.match(/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/)) {
-      $('#newPasswordErr').html("it nhat 8 ky tu 1 chu hoa mot chu so mot chu thuong va mot ky tu dat bicj okkk");
+      $('#newPasswordErr').html('<spring:message code="account.newPassword.matches" />');
       return false;
     }
     if (newPassword != rePassword) {
-      alert("Confirm password is correct !");
+    
       $('#inputPasswordRe').css("border","1px solid red");
+      $('#rePasswordErr').html('<spring:message code="account.rePassword.matches" />')
       return false;
     }
     return true ;
@@ -151,7 +160,7 @@
         
         var errs =  JSON.parse(jqXHR.responseText);
      if(jqXHR.status == 500){
-       alert("Sorry ! Error system !")
+       alert('<spring:message code="error.500" />')
      }
    
          for(var i = 0 ; i < errs.length ; i++){
@@ -211,17 +220,19 @@
         url: '${pageContext.request.contextPath}/api/account/profile',
         data: dataResult,
         success: function (result) {
+         
           $('#messageCode').html("");
           $('#codeModal').modal('show');
+        
         },
         error: function (jqXHR) {
         var errs =  JSON.parse(jqXHR.responseText);
      if(jqXHR.status == 500){
-       alert("Sorry ! Error system !")
+      alert('<spring:message code="error.500" />')
      }
      if(jqXHR.status == 502){
        var days = 29 - jqXHR.responseText;
-       alert("Sorry ! You recently changed your profile in the last day! Please come back in "+days+" days");
+       alert('<spring:message code="error.change.info.day" />'+days +'day');
      }
    
          for(var i = 0 ; i < errs.length ; i++){
@@ -289,10 +300,10 @@
         error: function (err) {
           if(err.responseText == "TimeOut"){
             $('#loadCode').css("display","none");
-            $('#messageCode').html("Het thoi gian xac nhan");
+            $('#messageCode').html('<spring:message code="account.confirm.mail.timeOut" />');
           }else{
             $('#loadCode').css("display","none");
-            $('#messageCode').html("Ma xac nhan khong chinh xac");
+            $('#messageCode').html('<spring:message code="account.confirm.mail.incorrect" />');
 
           }
         }
@@ -314,8 +325,8 @@
       var fileType = file["type"];
       var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
       if ($.inArray(fileType, validImageTypes) < 0) {
-        alert("this is ")
-        $(this).val("");
+        alert('<spring:message code="error.image.type" />')
+        $(this).val('');
       } else {
         readURL(this);
       
@@ -324,7 +335,7 @@
     //submit form avatar 
     $('#btChangeAvatar').on('click',function(){
     if ($('#avatarInput').val() == "") {
-      alert("khong duoc trong")
+      alert('<spring:message code="error.image.required" />')
       return false;
     }
       var formData = new FormData();
@@ -359,26 +370,21 @@
           
           var a = "url('"+url+"')";
           $(idAvatar).css("background-image", a);
-          img2 = new Image();
-        img2.src = img.src ;
-        if(img2.complete){
+       
+        if(img.complete){
         
           $(idLoad).css('display','none');
         $(idAvatar).css('display','');
 				clearInterval(intervalLoad);
 				}
      
-        },3000);
-  
-
+        },5000);
       }else{
         $(idLoad).css('display','none');
       }
-      
-
   },
         error: function (err) {
-       alert("Thay doi anh that bai")
+       alert('<spring:message code="error.image.failed" />')
         }
 
       });
@@ -400,7 +406,7 @@ function loadImage(result){
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Nhap ma xac nhan</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><spring:message code="account.confirm.mail" /></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -408,7 +414,7 @@ function loadImage(result){
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Vui long kiem tra email</label>
+            <label for="recipient-name" class="col-form-label"><spring:message code="account.confirm.mail.message" /></label>
             <i class="fa fa-spinner fa-spin fa-2x fa-fw" style="display: none;" id="loadCode"></i>
             <span id="messageCode" style="color: red;"></span>
             <input type="text" class="form-control" id="codeEmail">
@@ -418,7 +424,7 @@ function loadImage(result){
       </div>
       <div class="modal-footer">
      
-        <button type="button" class="btn btn-primary" id="submitCode">xac nhan</button>
+        <button type="button" class="btn btn-primary" id="submitCode"><spring:message code="button.confirm" /></button>
       </div>
     </div>
   </div>
@@ -430,7 +436,7 @@ function loadImage(result){
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Nhap ma xac nhan</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><spring:message code="account.confirm.mail" /></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -438,7 +444,7 @@ function loadImage(result){
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Vui long kiem tra email passs</label>
+            <label for="recipient-name" class="col-form-label"><spring:message code="account.confirm.mail.message" /></label>
             <i class="fa fa-spinner fa-spin fa-2x fa-fw" style="display: none;" id="loadCodePassword"></i>
             <span id="messageCodePassword" style="color: red;"></span>
             <input type="text" class="form-control" id="codeEmailPassword">
@@ -448,7 +454,7 @@ function loadImage(result){
       </div>
       <div class="modal-footer">
      
-        <button type="button" class="btn btn-primary" id="submitCodePassword">xac nhan</button>
+        <button type="button" class="btn btn-primary" id="submitCodePassword"><spring:message code="button.confirm" /></button>
       </div>
     </div>
   </div>
@@ -463,13 +469,13 @@ function loadImage(result){
       <div class="col-lg-8 order-md-last ftco-animate   fadeInUp ftco-animated">
         <ul class="nav nav-tabs" >
           <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#information" role="tab" aria-controls="home" aria-selected="true">Thong tin</a>
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#information" role="tab" aria-controls="home" aria-selected="true"><spring:message code="account.info" /></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#avatar" role="tab" aria-controls="contact" aria-selected="false">Anh dai dien</a>
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#avatar" role="tab" aria-controls="contact" aria-selected="false"><spring:message code="account.avatar" /></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#password" role="tab" aria-controls="contact" aria-selected="false">doi mat khau</a>
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#password" role="tab" aria-controls="contact" aria-selected="false"><spring:message code="account.change.password" /></a>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -480,20 +486,20 @@ function loadImage(result){
                   <button type="button" class="close" data-dismiss="alert"
                     aria-hidden="true">&times;</button>
                  
-                    <i class="icon fa fa-check"></i>Thanh cong 
+                    <i class="icon fa fa-check"></i><spring:message code="message.success" />
       
                 </div>
               </div>
       
              
               <div class="form-group">
-                <label for="fullName">Ho va ten</label>
+                <label for="fullName"><spring:message code="account.fullname" /></label>
                 <input type="text" class="form-control" value="${account.fullname}" id="fullName">
                 <span style="color: red;" id="fullnameErr"></span>
                
               </div>
               <div class="form-group">
-                <label for="birthday">Ngay sinh</label>
+                <label for="birthday"><spring:message code="account.birthday" /></label>
                 <input type="text" class="form-control" value="<fmt:formatDate pattern = 'dd-MM-yyyy' 
                 value = '${account.birthday}' />" id="birthday">
                 <span style="color: red;" id="birthdayErr"></span>
@@ -501,27 +507,27 @@ function loadImage(result){
               </div>
              
               <div class="form-group">
-                <label for="address">dia chi</label>
+                <label for="address"><spring:message code="account.address" /></label>
                 <input type="text" class="form-control" value="${account.address}" id="address">
                 <span style="color: red;" id="addressErr"></span>
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="gender" id="male" ${account.gender=='Male'
                   ?'checked="checked"':'' } value="male">
-                <label class="form-check-label" for="male">Nam </label>
+                <label class="form-check-label" for="male"><spring:message code="account.gender.male" /> </label>
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="gender" checked="${account.gender}" ${account.gender == '
                   Female'?'checked="checked"':'' } id="female" value="male">
-                <label class="form-check-label" for="female">Nu</label>
+                <label class="form-check-label" for="female"><spring:message code="account.gender.female" /></label>
               </div>
               <div class="form-group" style="padding-top: 1em;">
-                <label for="identityCard">Chung minh thu</label>
+                <label for="identityCard"><spring:message code="account.peopleID" /></label>
                 <input type="text" value="${account.identitycard}" class="form-control" id="identityCard">
                 <span style="color: red;" id="identityCardErr"></span>
               </div>
              
-              <button type="button" id="btAccount" class="btn btn-primary">cap nhat</button>
+              <button type="button" id="btAccount" class="btn btn-primary"><spring:message code="button.update" /></button>
     
             </form>
           </div>
@@ -534,7 +540,7 @@ function loadImage(result){
                   <button type="button" class="close" data-dismiss="alert"
                     aria-hidden="true">&times;</button>
                  
-                    <i class="icon fa fa-check"></i>up anh thanh cong
+                    <i class="icon fa fa-check"></i><spring:message code="message.success" />
       
                 </div>
               </div>
@@ -545,7 +551,7 @@ function loadImage(result){
                 <i class="fa fa-spinner fa-spin fa-2x fa-fw" style="display: none;" id="load"></i>
                 <input type="file" class="form-control-file" id="avatarInput" name="file">
               </div>
-              <button type="button" id="btChangeAvatar" class="btn btn-primary">Save</button>
+              <button type="button" id="btChangeAvatar" class="btn btn-primary"><spring:message code="button.modal.save" /></button>
             </form>
           </div>
           <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="contact-tab">
@@ -556,8 +562,7 @@ function loadImage(result){
                   <button type="button" class="close" data-dismiss="alert"
                     aria-hidden="true">&times;</button>
                  
-                    <i class="icon fa fa-check"></i>Thanh cong 
-      
+                    <i class="icon fa fa-check"></i><spring:message code="message.success" />
                 </div>
               </div>
               <div id="message2PasswordErr" style="display: none; padding-top: 1em;">
@@ -570,20 +575,21 @@ function loadImage(result){
                 </div>
               </div>
            
-              <label for="inputPasswordOld">Old Password</label>
+              <label for="inputPasswordOld"><spring:message code="account.oldPassword" /></label>
               <input type="password" id="inputPasswordOld" class="form-control" aria-describedby="passwordHelpBlock">
-             <br>
-              <label for="inputPasswordNew">New Password</label>
+              <span style="color: red;" id="oldPasswordErr"></span>
+              <br>
+              <label for="inputPasswordNew"><spring:message code="account.newPassword" /></label>
               <input type="password" id="inputPasswordNew" class="form-control" aria-describedby="passwordHelpBlock">
               <span style="color: red;" id="newPasswordErr"></span>
               <br>
-              <label for="inputPasswordRe">Re-Password</label> <i class="fa fa-check" id="checkOk" style="display: none;" aria-hidden="true"></i>
+              <label for="inputPasswordRe"><spring:message code="account.rePassword" /></label> <i class="fa fa-check" id="checkOk" style="display: none;" aria-hidden="true"></i>
               <input type="password" id="inputPasswordRe" class="form-control" aria-describedby="passwordHelpBlock">
               <span style="color: red;" id="rePasswordErr"></span>
          
               <div class="form-group row" style="padding-top: 2em;">
                 <div class="col-sm-10">
-                  <button type="button" id="btChangePassword" class="btn btn-primary">Save</button>
+                  <button type="button" id="btChangePassword" class="btn btn-primary"><spring:message code="button.update" /></button>
                 </div>
               </div>
             </form>

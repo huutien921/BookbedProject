@@ -25,7 +25,7 @@ public class EmailHelper {
     public JavaMailSender javaMailSender;
     @Autowired
    private UploadFileHelper upLoadFileHelper;
-   @Async
+ @Async
    public void sendMailCode(HttpSession httpSession, String request, Account account , String typeChange) throws MessagingException {
        int code  = Utils.getRandomIntegerBetweenRange(1000, 9999);
        
@@ -105,5 +105,36 @@ public class EmailHelper {
 
     }
 
+    @Async
+    public void sendMailToken(String tokenString , String path , String  template, String email) throws MessagingException {
+        String contentMail = upLoadFileHelper.readFileMail(template);
+        contentMail = contentMail.replace("${logo}", path+ "/resources/user/logos/bookbed_logo.png");
+        contentMail = contentMail.replace("${homePage}", path);
+       
+        contentMail = contentMail.replace("${tokenLink}",path + "/account/registerConfirm?token="+tokenString);
+
+        
+           contentMail = contentMail.replace("${contact}",path + "/contact");
+        
+        String sub = "Book bed - Just click to confirm";
+        sendMail(email,null,contentMail , sub);
+
+    }
+    
+    @Async
+    public void sendMailRecovery(String tokenString , String path , String  template, String email) throws MessagingException {
+        String contentMail = upLoadFileHelper.readFileMail(template);
+        contentMail = contentMail.replace("${logo}", path+ "/resources/user/logos/bookbed_logo.png");
+        contentMail = contentMail.replace("${homePage}", path);
+       
+        contentMail = contentMail.replace("${tokenLink}",path + "/account/recoveryConfirm?token="+tokenString);
+
+        
+           contentMail = contentMail.replace("${contact}",path + "/contact");
+        
+        String sub = "Book bed - Request a password reset";
+        sendMail(email,null,contentMail , sub);
+
+    }
 
 }

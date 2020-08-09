@@ -1,12 +1,16 @@
 package com.booking.bookbed.services;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.booking.bookbed.entities.Account;
-import com.booking.bookbed.entities.Role;
 import com.booking.bookbed.entities.RoleAccount;
 import com.booking.bookbed.entities.UserGroup;
 import com.booking.bookbed.repositories.AccountRepository;
@@ -18,7 +22,7 @@ public class AccountService implements IAccountService{
 
 	@Override
 	public Account findById(int id) {
-		// TODO Auto-generated method stub
+		
 		return accountRepository.findById(id).get();
 	}
 
@@ -57,18 +61,27 @@ public class AccountService implements IAccountService{
 		// TODO Auto-generated method stub
 		return accountRepository.statisticalUsers(id);
 	}
-	/*@Override
-	public List<UserGroup> statisticalUserses(Integer id) {
-		// TODO Auto-generated method stub
-		return accountRepository.statisticalUserses(id);
-	}*/
+
 	@Override
 	public List<UserGroup> statisticalUserses(Integer id) {
-		// TODO Auto-generated method stub
+	
 		return accountRepository.statisticalUserses(id);
 	}
 
-
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Account account = accountRepository.findByUsernameAndStatus(username, true);
+		if(account == null) {
+			throw new UsernameNotFoundException("Username not found");
+		}
+		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+		//lay tu entities
+		for(RoleAccount roleAccount : account.getRoleAccounts()) {
+			//lay ra name cua role trong tai khoan vua dang nhap
+			grantedAuthorities.add(new SimpleGrantedAuthority(roleAccount.getRole().getName()));
+		}
+		return new User(username, account.getPassword(), grantedAuthorities);
+	}
 
 	@Override
 	public Account findByUsernameAndStatus(String username, boolean status) {
@@ -79,4 +92,10 @@ public class AccountService implements IAccountService{
 	@Override
 	public Account findByUsername(String username) {
 		return accountRepository.findByUsername(username);}
+
+	@Override
+	public Account findByEmail(String email) {
+		
+		return accountRepository.findByEmail(email);
+	}
 }
