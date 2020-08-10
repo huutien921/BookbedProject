@@ -13,7 +13,11 @@
 		<name>account</name>
 		<tag-class>com.booking.bookbed.tags.AccountTag</tag-class>
         <body-content>empty</body-content>
-		
+	</tag>
+		<tag>
+		<name>blog</name>
+		<tag-class>com.booking.bookbed.tags.CategoryBlogTag</tag-class>
+        <body-content>empty</body-content>
 	</tag>
 
 </taglib>

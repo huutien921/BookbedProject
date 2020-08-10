@@ -89,7 +89,6 @@ $(document).ready(()=>{
 		resetForm();
 		if (validationForm()) {
 			var dataResult = JSON.stringify(getDataForm());
-			alert(dataResult)
 			$.ajax({
         dataType: "json",
         contentType: "application/json",

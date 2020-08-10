@@ -84,7 +84,6 @@
 		})
 		//check username
 		$('#username').on('change', function () {
-
 			$.ajax({
 				dataType: "text",
 				contentType: "application/json",
@@ -94,6 +93,7 @@
 					username: $(this).val()
 				},
 				success: function (result) {
+				
 					$('#checkOkUsername').css("display", "");
 					$('#usernameStatus').html("");
 				},
@@ -166,7 +166,7 @@
 			$('#formUsername').hide();
 			$('#formEmail').show();
 		})
-
+	
 		//check mail
 		$('#btCheckMail').on('click', function () {
 			$('#loadEmail').css("display", "");
@@ -257,10 +257,11 @@
 								href="${pageContext.request.contextPath}/account/login">
 								<spring:message code="login.login" /></a>
 						</div>
+					</form>
 				</div>
 
-				</form>
-			</div>
+			
+		
 			<!-- end -->
 			<div style="background: hsl(0, 0%, 100%); padding: 44px 40px 50px 40px;border-radius : 4px; display: none;"
 				id="formUsername">
@@ -270,7 +271,7 @@
 					<div class="form-group">
 						<label for="username"><spring:message code="account.username" /></label><i class="fa fa-check" id="checkOkUsername"
 							style="color:cyan ;display: none;" aria-hidden="true"></i>
-						<input type="text" class="form-control"  >
+						<input type="text" class="form-control" id="username"  >
 						<small id="usernameStatus">
 						</small>
 					</div>
@@ -302,7 +303,7 @@
 				</form>
 			</div>
 
-
+		</div>
 
 		</div>
 	</div>

@@ -13,9 +13,21 @@ public class BlogService implements IBlogService {
 @Autowired
 private BlogRepository blogRepository; 
 	@Override
-	public List<Blog> findLimitByStatus(boolean status, int n) {
+	public List<Blog> findLimitByStatus(final boolean status, final int n) {
 	
 		return blogRepository.findLimitByStatus(status, n);
+	}
+
+	@Override
+	public List<Blog> findAllByStatus(boolean status) {
+		
+		return blogRepository.findAllByStatus(true);
+	}
+
+	@Override
+	public Blog findById(int id) {
+		
+		return blogRepository.findById(id).get();
 	}
 
 }

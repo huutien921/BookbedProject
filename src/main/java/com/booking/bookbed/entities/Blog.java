@@ -23,15 +23,14 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "blog")
 public class Blog implements java.io.Serializable {
-
 	private Integer id;
 	private Account account;
+	private CategoryBlog categoryBlog;
 	private String title;
 	private String content;
-	private boolean status;
 	private String src;
-	@Temporal(TemporalType.DATE)
 	private Date created;
+	private boolean status;
 	private Set<Imageblog> imageblogs = new HashSet<Imageblog>(0);
 
 	public Blog() {
@@ -42,24 +41,15 @@ public class Blog implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public Blog(Account account, String title, String content, boolean status, Set<Imageblog> imageblogs) {
+	public Blog(Account account, CategoryBlog categoryBlog, String title, String content, String src, Date created,
+			boolean status, Set<Imageblog> imageblogs) {
 		this.account = account;
+		this.categoryBlog = categoryBlog;
 		this.title = title;
 		this.content = content;
-		this.status = status;
-		this.imageblogs = imageblogs;
-	}
-
-	public Blog(Integer id, Account account, String title, String content, boolean status, String src, Date created,
-			Set<Imageblog> imageblogs) {
-		super();
-		this.id = id;
-		this.account = account;
-		this.title = title;
-		this.content = content;
-		this.status = status;
 		this.src = src;
 		this.created = created;
+		this.status = status;
 		this.imageblogs = imageblogs;
 	}
 
@@ -85,6 +75,16 @@ public class Blog implements java.io.Serializable {
 		this.account = account;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_category")
+	public CategoryBlog getCategoryBlog() {
+		return this.categoryBlog;
+	}
+
+	public void setCategoryBlog(CategoryBlog categoryBlog) {
+		this.categoryBlog = categoryBlog;
+	}
+
 	@Column(name = "title", length = 250)
 	public String getTitle() {
 		return this.title;
@@ -94,13 +94,32 @@ public class Blog implements java.io.Serializable {
 		this.title = title;
 	}
 
-	@Column(name = "content", length = 65535)
+	@Column(name = "content")
 	public String getContent() {
 		return this.content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Column(name = "src", length = 250)
+	public String getSrc() {
+		return this.src;
+	}
+
+	public void setSrc(String src) {
+		this.src = src;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "created", length = 10)
+	public Date getCreated() {
+		return this.created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 	@Column(name = "status", nullable = false)
@@ -119,22 +138,6 @@ public class Blog implements java.io.Serializable {
 
 	public void setImageblogs(Set<Imageblog> imageblogs) {
 		this.imageblogs = imageblogs;
-	}
-
-	public String getSrc() {
-		return src;
-	}
-
-	public void setSrc(String src) {
-		this.src = src;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
 	}
 
 }
