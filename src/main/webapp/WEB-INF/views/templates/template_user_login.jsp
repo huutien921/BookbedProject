@@ -6,11 +6,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Vacation - Free Bootstrap 4 Template by Colorlib</title>
+<title>${title}</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+	<link rel="icon" href="${pageContext.request.contextPath }/resources/user/images/bed.png">
 <link
 	href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
 	rel="stylesheet">
@@ -52,7 +52,8 @@
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 		id="ftco-navbar">
 		<div class="container">
-		<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png" style="width: 150px" height="50px">
+			<a href="${pageContext.request.contextPath }/home/image"></a>
+		<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png" style="width: 150px" height="50px"/>
 			
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#ftco-nav" aria-controls="ftco-nav"
@@ -64,8 +65,8 @@
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="${pageContext.request.contextPath }/home/index"
 						class="nav-link"><spring:message code="nav.home"></spring:message></a></li>
-					<li class="nav-item"><a href="${pageContext.request.contextPath }/about" class="nav-link"><spring:message
-								code="nav.about"></spring:message></a></li>
+					<li class="nav-item"><a href="${pageContext.request.contextPath }/partner" class="nav-link"><spring:message
+								code="nav.partner"></spring:message></a></li>
 					<li class="nav-item"><a href="${pageContext.request.contextPath }/promotions"
 						class="nav-link"><spring:message code="nav.promotions"></spring:message></a></li>
 					<li class="nav-item"><a href="${pageContext.request.contextPath }/blog" class="nav-link"><spring:message
@@ -102,88 +103,7 @@
 	
 	<tiles:insertAttribute name="content"></tiles:insertAttribute>
 	<!-- footer -->
-	<footer class="ftco-footer bg-bottom"
-		style="background-image: url(${pageContext.request.contextPath }/resources/user/images/footer-bg.jpg);">
-		<div class="container">
-			<div class="row mb-5">
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Vacation</h2>
-						<p>Far far away, behind the word mountains, far from the
-							countries Vokalia and Consonantia, there live the blind texts.</p>
-						<ul
-							class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-twitter"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-facebook"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4 ml-md-5">
-						<h2 class="ftco-heading-2">Infromation</h2>
-						<ul class="list-unstyled">
-							<li><a href="#" class="py-2 d-block">Online Enquiry</a></li>
-							<li><a href="#" class="py-2 d-block">General Enquiries</a></li>
-							<li><a href="#" class="py-2 d-block">Booking Conditions</a></li>
-							<li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
-							<li><a href="#" class="py-2 d-block">Refund Policy</a></li>
-							<li><a href="#" class="py-2 d-block">Call Us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Experience</h2>
-						<ul class="list-unstyled">
-							<li><a href="#" class="py-2 d-block">Adventure</a></li>
-							<li><a href="#" class="py-2 d-block">Hotel and
-									Restaurant</a></li>
-							<li><a href="#" class="py-2 d-block">Beach</a></li>
-							<li><a href="#" class="py-2 d-block">Nature</a></li>
-							<li><a href="#" class="py-2 d-block">Camping</a></li>
-							<li><a href="#" class="py-2 d-block">Party</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Have a Questions?</h2>
-						<div class="block-23 mb-3">
-							<ul>
-								<li><span class="icon icon-map-marker"></span><span
-									class="text">203 Fake St. Mountain View, San Francisco,
-										California, USA</span></li>
-								<li><a href="#"><span class="icon icon-phone"></span><span
-										class="text">+2 392 3929 210</span></a></li>
-								<li><a href="#"><span class="icon icon-envelope"></span><span
-										class="text">info@yourdomain.com</span></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 text-center">
-
-					<p>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script>
-						All rights reserved | This template is made with <i
-							class="icon-heart color-danger" aria-hidden="true"></i> by <a
-							href="https://colorlib.com" target="_blank">Colorlib</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					</p>
-				</div>
-			</div>
-		</div>
-	</footer>
+	<tiles:insertAttribute name="footer"></tiles:insertAttribute>
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen">
 		<svg class="circular" width="48px" height="48px">

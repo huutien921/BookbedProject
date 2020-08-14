@@ -15,8 +15,8 @@ import com.booking.bookbed.entities.Blog;
 @Repository("blogRepository")
 public interface BlogRepository extends  CrudRepository<Blog,Integer>{
 	//get limit blog
-	@Query(value="select * from Blog where status = :status order by id desc limit :n ", nativeQuery = true)
+	@Query(nativeQuery = true ,value="select * from blog where status = :status order by id desc limit :n ")
 	public List<Blog> findLimitByStatus(@Param("status") boolean status, @Param("n") int n);
-	@Query(value="select * from Blog where status = :status order by id desc ", nativeQuery = true)
+	@Query( nativeQuery = true, value="select * from blog where status = :status order by id desc ")
 	public List<Blog> findAllByStatus(@Param("status") boolean status);
 }

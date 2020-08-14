@@ -1,14 +1,12 @@
 package com.booking.bookbed.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.booking.bookbed.entities.Orders;
 import com.booking.bookbed.entities.Partners;
-import com.booking.bookbed.repositories.OrdersRepository;
+
 import com.booking.bookbed.repositories.PartnerRepository;
 
 @Service("partnersService")

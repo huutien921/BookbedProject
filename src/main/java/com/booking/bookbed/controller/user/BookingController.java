@@ -1,14 +1,13 @@
 package com.booking.bookbed.controller.user;
 
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.booking.bookbed.entities.Account;
 import com.booking.bookbed.entities.OrderDetail;
 import com.booking.bookbed.entities.Orders;
@@ -30,11 +27,11 @@ import com.booking.bookbed.helper.CheckPayatHotelHelper;
 import com.booking.bookbed.helper.CheckUrlHelper;
 import com.booking.bookbed.helper.EmailHelper;
 import com.booking.bookbed.helper.PriceHelper;
-
 import com.booking.bookbed.helper.Utils;
 import com.booking.bookbed.services.AccountService;
 import com.booking.bookbed.services.OrderDetailService;
 import com.booking.bookbed.services.OrdersService;
+import com.booking.bookbed.services.PanelService;
 import com.booking.bookbed.services.RoomService;
 import com.booking.bookbed.services.SaleService;
 
@@ -59,13 +56,14 @@ public class BookingController {
 	private PriceHelper priceHelper;
 	@Autowired
 	private EmailHelper emailHelper;
-	
 	private OrderDetail orderDetailResult ;
-
+	@Autowired
+	private MessageSource messageSource;
+	@Autowired
+	private PanelService panelService;
 	@RequestMapping(method = RequestMethod.GET)
 	public String booking(Authentication authentication ,@RequestParam("roomid") int roomid, @RequestParam("checkin_date") String checkin_date,
 			@RequestParam("checkout_date") String checkout_date, @RequestParam("rooms") int rooms, ModelMap map
-
 	) throws MessagingException {
 	
 		if (checkUrlHelper.checkUrlBooking(roomid, checkin_date, checkout_date, rooms ,accountService.findByUsernameAndStatus("tien_user", true))) {
@@ -74,7 +72,7 @@ public class BookingController {
 			Date dateCheckOut = new SimpleDateFormat("MM/dd/yyyy").parse(checkout_date);
 			long getDiff = dateCheckOut.getTime() - dateCheckIn.getTime();
 			long getDayDiff = TimeUnit.MILLISECONDS.toDays(getDiff);
-		// tinh tien
+			//money total
 			Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
 		Room room =  roomService.findById(roomid);
 		double finalPrice = priceHelper.calculatorPrice(room, rooms, (int) getDayDiff, null);
@@ -85,20 +83,21 @@ public class BookingController {
 			map.put("checkin", checkin_date);
 			map.put("checkout", checkout_date);
 			map.put("user", account);
-			map.put("title", "Booking");
-
+			map.put("title",messageSource.getMessage("booking.detail", null, LocaleContextHolder.getLocale()));
+			try {
+				map.put("panel", panelService.findById(7));
+			} catch (Exception e) {
+				map.put("panel", null);
+			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			
 			return "redirect:/home";
 		}
 		return "user.booking";
 		} else {
-			
 			return "redirect:/home";
 		}
-	
 	}
-
 	@RequestMapping(method = RequestMethod.POST)
 	public String booking(Authentication authentication ,@RequestParam("idRoom") int idRoom, @RequestParam("checkIn_date") String checkin,
 			@RequestParam("checkOut_date") String checkout, @RequestParam("rooms") int rooms

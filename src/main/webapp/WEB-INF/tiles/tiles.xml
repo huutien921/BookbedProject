@@ -7,11 +7,14 @@
 
 	<definition name="user_template" template="/WEB-INF/views/templates/template_user.jsp">
 		<put-attribute name="content" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/templates/footer/footer.jsp"></put-attribute>
 	</definition>
 	<definition name="user_template_search" template="/WEB-INF/views/templates/template_user_search.jsp">
 		<put-attribute name="content" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/templates/footer/footer.jsp"></put-attribute>
 	</definition>
 	<definition name="user_template_login" template="/WEB-INF/views/templates/template_user_login.jsp">
 		<put-attribute name="content" value=""></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/templates/footer/footer.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>

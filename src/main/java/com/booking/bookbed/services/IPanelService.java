@@ -1,9 +1,8 @@
 package com.booking.bookbed.services;
 
-import java.util.List;
-
 import com.booking.bookbed.entities.Panel;
 
 public interface IPanelService {
-
+public Panel save(Panel panel);
+public Panel findById(int id);
 }

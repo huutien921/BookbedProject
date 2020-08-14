@@ -25,14 +25,12 @@ import com.booking.bookbed.services.CreditCardService;
 import com.booking.bookbed.validations.AccountViewValidator;
 import com.booking.bookbed.validations.CreditCardViewValidator;
 import com.booking.bookbed.validations.PasswordViewValidator;
-
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,11 +39,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 @RestController
 @RequestMapping("api/account")
 public class AccountRestController {
-
     @Autowired
     private AccountViewValidator accountViewValidator;
     @Autowired
@@ -62,12 +58,9 @@ public class AccountRestController {
     private CreditCardService creditCardService;
      @Autowired
     private CreditCardViewValidator creditCardViewValidator ;
-    
-
     @RequestMapping(value = "profile", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> editProfile(Authentication authentication ,HttpServletRequest request, @RequestBody @Valid AccountView accountView,
             BindingResult bindingResult, HttpSession httpSession) {
-
         try {
             if (httpSession.getAttribute("code") != null) {
                 return new ResponseEntity<>(accountView, HttpStatus.OK);
@@ -105,8 +98,6 @@ public class AccountRestController {
                 return new ResponseEntity<>("TimeOut", HttpStatus.BAD_REQUEST);
             } else {
                 String code1 = (String) httpSession.getAttribute("code");
-                System.out.println(code1);
-                System.out.println(code);
                 if (code1.trim() == code.trim() || code1.equals(code.trim())) {
                     if (httpSession.getAttribute("accountInfo") != null) {
                         AccountView accountView = (AccountView) httpSession.getAttribute("accountInfo");
@@ -174,7 +165,7 @@ public class AccountRestController {
                     if (httpSession.getAttribute("passwordView") != null) {
                         PasswordView passwordView = (PasswordView) httpSession.getAttribute("passwordView");
                         Account account = accountService.findByUsername(authentication.getName());
-                      account.setPassword(new BCrypt().hashpw(passwordView.getNewPassword(), BCrypt.gensalt()));
+                      account.setPassword(new BCryptPasswordEncoder().encode(passwordView.getNewPassword()));
                         accountService.save(account);
                         httpSession.removeAttribute("passwordView");
                         httpSession.removeAttribute("code");

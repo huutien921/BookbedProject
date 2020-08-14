@@ -40,7 +40,7 @@ public class AccountViewValidator implements Validator{
 
                 errors.rejectValue("address", "required");
             }else if(account.getAddress().length() > 500){
-                errors.rejectValue("fullname", "length");
+                errors.rejectValue("address", "length");
     
             }
             if (account.getGender().equalsIgnoreCase("male") && account.getGender().equalsIgnoreCase("female")) {

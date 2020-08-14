@@ -1,28 +1,28 @@
 package com.booking.bookbed.controller.user;
 
 import java.util.Date;
-
 import com.booking.bookbed.entities.Account;
 import com.booking.bookbed.entities.VerificationToken;
 import com.booking.bookbed.services.AccountService;
 import com.booking.bookbed.services.VerificationTokenService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 @Controller
 @RequestMapping("account")
 public class LoginController {
-
 	@Autowired
 	private VerificationTokenService tokenService;
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private MessageSource messageSource;
 	@RequestMapping( value = "login", method = RequestMethod.GET)
 	public String login(@RequestParam(required = false)   String username , @RequestParam(value = "error", required = false) String error,
 	@RequestParam(value = "logout", required = false) String logout, ModelMap modelMap) {
@@ -34,12 +34,13 @@ public class LoginController {
 			modelMap.put("msg", "logout");
 		}
 		modelMap.put("username", username);
+		modelMap.put("title",messageSource.getMessage("login.login", null, LocaleContextHolder.getLocale()));
 		return "account.login";
 	}
 
 	@RequestMapping( value = "register", method = RequestMethod.GET)
-	public String register() {
-	
+	public String register(ModelMap modelMap) {
+		modelMap.put("title",messageSource.getMessage("login.register", null, LocaleContextHolder.getLocale()));
 		return "account.register";
 	}
 	@RequestMapping( value = "registerConfirm", method = RequestMethod.GET)
@@ -67,8 +68,8 @@ public class LoginController {
 		return "redirect:/user/account/profile";
 	}
 	@RequestMapping( value = "recovery", method = RequestMethod.GET)
-	public String recovery() {
-	
+	public String recovery(ModelMap modelMap) {
+		modelMap.put("title",messageSource.getMessage("login.forgotPassword", null, LocaleContextHolder.getLocale()));
 		return "account.recovery";
 	}
 	@RequestMapping( value = "recoveryConfirm", method = RequestMethod.GET)
@@ -87,7 +88,7 @@ public class LoginController {
 	 	attributes.addFlashAttribute("token.error", "token.error.expired");
 		return "redirect:/error/token";
 	}
-
+	modelMap.put("title",messageSource.getMessage("login.forgotPassword", null, LocaleContextHolder.getLocale()));
 		return "account.resetPassword";
 	}
 

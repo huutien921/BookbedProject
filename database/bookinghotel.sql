@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2020 at 02:39 PM
+-- Generation Time: Aug 14, 2020 at 06:05 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -175,6 +175,13 @@ CREATE TABLE `about` (
   `email` varchar(50) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `name` varchar(250) NOT NULL,
+  `facebook` varchar(75) DEFAULT NULL,
+  `youtube` varchar(75) DEFAULT NULL,
+  `instagram` varchar(75) DEFAULT NULL,
+  `twitter` varchar(75) DEFAULT NULL,
+  `android` varchar(75) DEFAULT NULL,
+  `ios` varchar(75) DEFAULT NULL,
+  `image` varchar(40) DEFAULT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -182,8 +189,8 @@ CREATE TABLE `about` (
 -- Dumping data for table `about`
 --
 
-INSERT INTO `about` (`id`, `address`, `country`, `email`, `phone`, `name`, `status`) VALUES
-(1, 'Nguyen Kiem , Phu Nhuan , Tp HCM', 'Viet Nam', 'bookbed@gmail.com', '0947443148', 'BookBed Online', 1);
+INSERT INTO `about` (`id`, `address`, `country`, `email`, `phone`, `name`, `facebook`, `youtube`, `instagram`, `twitter`, `android`, `ios`, `image`, `status`) VALUES
+(1, 'Nguyen Kiem , Phu Nhuan , Tp HCM', 'Viet Nam', 'bookbed@gmail.com', '0947443148', 'BookBed Online', 'https://www.facebook.com/huutien2020/', 'https://www.facebook.com/huutien2020/', 'https://www.facebook.com/huutien2020/', 'https://www.facebook.com/huutien2020/', 'https://www.facebook.com/huutien2020/', 'https://www.facebook.com/huutien2020/', 'footer-bg.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -382,6 +389,52 @@ INSERT INTO `category_blog` (`id`, `name`, `image`, `description`, `status`) VAL
 (4, 'Du lich4', 'dulich.png', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et.', 1),
 (5, 'Du lich5', 'dulich.png', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et.', 1),
 (6, 'Du lich6', 'dulich.png', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et.', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `email` varchar(40) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `content` text NOT NULL,
+  `created` date NOT NULL,
+  `id_order` int(11) DEFAULT NULL,
+  `id_type` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact`
+--
+
+INSERT INTO `contact` (`id`, `name`, `email`, `title`, `content`, `created`, `id_order`, `id_type`, `status`) VALUES
+(4, 'TIEN', 'huutien921@gmail.com', '3333', '33333', '2020-08-11', NULL, 2, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_type`
+--
+
+CREATE TABLE `contact_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact_type`
+--
+
+INSERT INTO `contact_type` (`id`, `name`, `status`) VALUES
+(1, 'Vấn đề về đối tác', 1),
+(2, 'Vấn đề về đặt phòng', 1),
+(3, 'Vấn đề về thanh toán', 1);
 
 -- --------------------------------------------------------
 
@@ -744,7 +797,8 @@ INSERT INTO `orders` (`id`, `name`, `payment`, `created`, `total_price`, `accoun
 (136, 'payathotel', 'payathotel', '2020-07-12', 72, 3, NULL, 0),
 (137, 'payathotel', 'payathotel', '2020-08-01', 70, 3, NULL, 0),
 (138, 'payathotel', 'payathotel', '2020-08-06', 720, 3, NULL, 0),
-(139, 'payathotel', 'payathotel', '2020-08-09', 720, 4, NULL, 0);
+(139, 'payathotel', 'payathotel', '2020-08-09', 720, 4, NULL, 0),
+(140, 'TS4GDET7V57TS', 'PAYID-L4ZGF2I55088365P8091521E', '2020-08-11', 720, 81, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -777,7 +831,8 @@ INSERT INTO `order_detail` (`id`, `room_id`, `check_in_date`, `check_out_date`, 
 (140, 61, '2020-07-15', '2020-07-16', 1, 'Thanh truc v444', 'huutien921@gmail.com', '', 136, 1),
 (141, 2, '2020-08-04', '2020-08-05', 1, 'Thanh truc v444', 'huutien921@gmail.com', '', 137, 1),
 (142, 1, '2020-08-13', '2020-08-14', 1, 'Thanh truc v444', 'huutien922@gmail.com', '', 138, 1),
-(143, 1, '2020-08-25', '2020-08-26', 1, 'Nguyen Thuan', 'huutien92@gmail.com', '', 139, 1);
+(143, 1, '2020-08-25', '2020-08-26', 1, 'Nguyen Thuan', 'huutien92@gmail.com', '', 139, 1),
+(144, 1, '2020-08-14', '2020-08-15', 1, 'Nguyen Tran Dan Thy', 'thytran.251299@gmail.com', '', 140, 1);
 
 -- --------------------------------------------------------
 
@@ -792,8 +847,27 @@ CREATE TABLE `panel` (
   `content` text NOT NULL,
   `status` tinyint(1) NOT NULL,
   `image_src` varchar(250) NOT NULL,
+  `video` varchar(250) DEFAULT NULL,
   `id_super_admin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `panel`
+--
+
+INSERT INTO `panel` (`id`, `name`, `title`, `content`, `status`, `image_src`, `video`, `id_super_admin`) VALUES
+(1, 'Home', 'Make Your Tour Amazing With Us', 'Travel to the any corner of the world, without going around in circles', 1, 'bg_2.jpg', 'https://www.youtube.com/watch?v=f0TyZQAntLA', NULL),
+(2, 'promotions', '', '', 1, 'bg_2.jpg', '', NULL),
+(3, 'blog', '', '', 1, 'bg_2.jpg', '', NULL),
+(4, 'contact', '', '', 1, 'bg_2.jpg', '', NULL),
+(5, 'search_result', '', '', 1, 'bg_2.jpg', '', NULL),
+(6, 'Hotel detail', '', '', 1, 'bg_2.jpg', '', NULL),
+(7, 'Booking', '', '', 1, 'bg_2.jpg', '', NULL),
+(8, 'Profile', '', '', 1, 'bg_2.jpg', '', NULL),
+(9, 'status order', '', '', 1, 'bg_2.jpg', '', NULL),
+(10, 'surplus', '', '', 1, 'bg_2.jpg', '', NULL),
+(11, 'editEmailNotification', '', '', 1, 'bg_2.jpg', '', NULL),
+(12, 'purchase', '', '', 1, 'bg_2.jpg', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -1208,6 +1282,21 @@ INSERT INTO `star_rating` (`id`, `amount`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `support_customer`
+--
+
+CREATE TABLE `support_customer` (
+  `id` int(11) NOT NULL,
+  `name` int(11) NOT NULL,
+  `email` int(11) NOT NULL,
+  `content` int(11) NOT NULL,
+  `id_order` int(11) NOT NULL,
+  `id_type` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `type_card`
 --
 
@@ -1270,7 +1359,8 @@ INSERT INTO `verification_token` (`id`, `token`, `expiry_date`, `id_account`, `s
 (3, 'b1a5305c-fff8-469c-af9c-7f0e7826a7e2', '2020-08-10 00:21:09', 80, 0),
 (4, '303475f3-88b3-4128-b910-069587d008d1', '2020-08-10 00:00:50', 80, 0),
 (5, 'a2c482c3-9bb1-4abb-9900-4c23a877c572', '2020-08-11 00:34:21', 82, 1),
-(6, '2307a870-6121-4949-8176-e6c07c14956f', '2020-08-11 00:36:06', 82, 1);
+(6, '2307a870-6121-4949-8176-e6c07c14956f', '2020-08-11 00:36:06', 82, 1),
+(7, '8dc16b3a-71d7-43f1-aa46-a3ac27611379', '2020-08-12 00:09:13', 82, 0);
 
 --
 -- Indexes for dumped tables
@@ -1313,6 +1403,20 @@ ALTER TABLE `card`
 -- Indexes for table `category_blog`
 --
 ALTER TABLE `category_blog`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_type` (`id_type`),
+  ADD KEY `id_order` (`id_order`);
+
+--
+-- Indexes for table `contact_type`
+--
+ALTER TABLE `contact_type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1565,6 +1669,16 @@ ALTER TABLE `card`
 ALTER TABLE `category_blog`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `contact_type`
+--
+ALTER TABLE `contact_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `coppon_hotel`
 --
 ALTER TABLE `coppon_hotel`
@@ -1613,17 +1727,17 @@ ALTER TABLE `invoice_card`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 --
 -- AUTO_INCREMENT for table `panel`
 --
 ALTER TABLE `panel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `partners`
 --
@@ -1698,7 +1812,7 @@ ALTER TABLE `type_part`
 -- AUTO_INCREMENT for table `verification_token`
 --
 ALTER TABLE `verification_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Constraints for dumped tables
 --
@@ -1709,6 +1823,12 @@ ALTER TABLE `verification_token`
 ALTER TABLE `blog`
   ADD CONSTRAINT `blog_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   ADD CONSTRAINT `blog_ibfk_2` FOREIGN KEY (`id_category`) REFERENCES `category_blog` (`id`);
+
+--
+-- Constraints for table `contact`
+--
+ALTER TABLE `contact`
+  ADD CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`id_type`) REFERENCES `contact_type` (`id`);
 
 --
 -- Constraints for table `credit_card`

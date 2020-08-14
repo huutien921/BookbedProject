@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.booking.bookbed.entities.Account;
@@ -136,5 +135,18 @@ public class EmailHelper {
         sendMail(email,null,contentMail , sub);
 
     }
+    @Async
+    public void sendMailContact( String path , String email) throws MessagingException {
+        String contentMail = upLoadFileHelper.readFileMail("template_contact.html");
+        contentMail = contentMail.replace("${logo}", path+ "/resources/user/logos/bookbed_logo.png");
+        contentMail = contentMail.replace("${homePage}", path);
+  
+           contentMail = contentMail.replace("${contact}",path + "/contact");
+        
+        String sub = "Book bed - Has received feedback";
+        sendMail(email,null,contentMail , sub);
+
+    }
+
 
 }

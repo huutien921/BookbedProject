@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.booking.bookbed.entities.OrderDetail;
 
-import javassist.expr.NewArray;
 
 @Repository("orderDetailRepository")
 public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integer> {

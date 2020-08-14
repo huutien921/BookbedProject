@@ -8,13 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("error")
 public class ErrorController {
-
 	@RequestMapping( value = "token", method = RequestMethod.GET)
 	public String token() {
-	
 		return "user/error/token";
 	}
-
-
-
 }

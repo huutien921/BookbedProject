@@ -8732,8 +8732,15 @@ textarea.form-control {
     color: rgba(255, 255, 255, 0.7); }
   .ftco-footer a {
     color: rgba(255, 255, 255, 0.7); }
+
     .ftco-footer a:hover {
-      color: #fff; }
+      color: white; 
+      text-decoration: underline;
+    }
+    .ftco-footer  a.partner_a:hover {
+      color: white;
+      text-decoration: none; 
+    }
   .ftco-footer .ftco-heading-2 {
     font-size: 17px;
     font-weight: 400;

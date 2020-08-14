@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js">
@@ -161,10 +162,8 @@ $(function(){
 	 
 </script>
 
-
-
 <div class="hero-wrap js-fullheight"
-	style="background-image: url('${pageContext.request.contextPath }/uploads/images/slide/bg_2.jpg');"
+	style="background-image: url('${pageContext.request.contextPath }/uploads/images/slide/${panel.imageSrc == null ? "default.jpg" : panel.imageSrc }');"
 	data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
@@ -173,15 +172,13 @@ $(function(){
 			data-scrollax-parent="true">
 			<div class="col-md-9 text text-center ftco-animate"
 				data-scrollax=" properties: { translateY: '70%' }">
-				<a href="https://vimeo.com/45830194"
+				<a href="${panel.video}"
 					class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
 					<span class="ion-ios-play"></span>
 				</a>
 				<p class="caps"
-					data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Travel
-					to the any corner of the world, without going around in circles</p>
-				<h1 data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Make
-					Your Tour Amazing With Us</h1>
+					data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">${panel.content}</p>
+				<h1 data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">${panel.title}</h1>
 			</div>
 		</div>
 	</div>
@@ -195,7 +192,6 @@ $(function(){
 					<form action="#" class="search-property-1">
 						<div class="row">
 							<div class="col-lg align-items-end">
-
 								<div class="form-group">
 									<span class=" icon-map-marker"></span> <label for="#"><spring:message
 											code="search.destination"></spring:message></label> <input
@@ -242,8 +238,8 @@ $(function(){
 								<div class="form-group">
 									<div class="form-field">
 										<input type="button" id="btSearch"
-											value="<spring:message
-											code="search.button"></spring:message>"
+											value='<spring:message
+											code="search.button"/>'
 											class="form-control btn btn-primary">
 									</div>
 								</div>
@@ -368,8 +364,8 @@ $(function(){
 			<c:forEach var="promotion" items="${promotions }">
 				<div class="col-md-3 ftco-animate">
 					<div class="project-destination">
-						<a href="#" class="img"
-							style="background-image: url(${pageContext.request.contextPath }/uploads/images/promotion/${promotion.src });">
+						<a href="${pageContext.request.contextPath}/promotions" class="img"
+							style="background-image: url(${pageContext.request.contextPath}/uploads/images/promotion/${promotion.src });">
 							<div class="text">
 								<h3 style="color: while;">
 									<font style="background-color: #003300; border-radius: 5pt;">${promotion.code }</font>
@@ -390,47 +386,23 @@ $(function(){
 		<div class="row d-flex">
 			<div class="col-md-6 d-flex">
 				<div class="img d-flex align-self-stretch"
-					style="background-image:url(${pageContext.request.contextPath}/uploads/images/about/about.jpg);"></div>
+					style="background-image:url(${pageContext.request.contextPath}/uploads/images/blog/${about.src});"></div>
 			</div>
 			<div class="col-md-6 pl-md-5 py-5">
 				<div class="row justify-content-start pb-3">
 					<div class="col-md-12 heading-section ftco-animate">
-						<h2 class="mb-4">Make Your Tour Memorable and Safe With Us</h2>
-						<p>Far far away, behind the word mountains, far from the
-							countries Vokalia and Consonantia, there live the blind texts.
-							Separated they live in Bookmarksgrove right at the coast of the
-							Semantics, a large language ocean.</p>
+						<h2 class="mb-4"><a href="${pageContext.request.contextPath}/blog/about-us">${about.title}</a></h2>
+						<p>             <c:set var="string" value="${fn:substringBefore( fn:substringAfter(about.content, '<p>')  , '</p>')}"/>  
+                        <c:if test="${fn:length(string) < 250}">
+                        ${string}
+                        </c:if>
+                        <c:if test="${fn:length(string) > 250}">
+                         ${fn:trim(fn:substring(string, 0, 250))}...
+                         </c:if></p>
 					</div>
 				</div>
-				<div class="row">
-					<div
-						class="col-md-4 justify-content-center counter-wrap ftco-animate">
-						<div class="block-18 text-center mb-4">
-							<div class="text">
-								<strong class="number" data-number="300">0</strong> <span>Successful
-									Tours</span>
-							</div>
-						</div>
-					</div>
-					<div
-						class="col-md-4 justify-content-center counter-wrap ftco-animate">
-						<div class="block-18 text-center mb-4">
-							<div class="text">
-								<strong class="number" data-number="24000">0</strong> <span>Happy
-									Tourist</span>
-							</div>
-						</div>
-					</div>
-					<div
-						class="col-md-4 justify-content-center counter-wrap ftco-animate">
-						<div class="block-18 text-center mb-4">
-							<div class="text">
-								<strong class="number" data-number="200">0</strong> <span>Place
-									Explored</span>
-							</div>
-						</div>
-					</div>
-				</div>
+
+		
 			</div>
 		</div>
 	</div>
@@ -449,7 +421,7 @@ $(function(){
 			<c:forEach var="blog" items="${blogs }">
 				<div class="col-md-4 d-flex ftco-animate">
 					<div class="blog-entry">
-						<a href="blog-single.html" class="block-20"
+						<a href="${pageContext.request.contextPath}/blog/detail/${blog.id}" class="block-20"
 							style="background-image: url('${pageContext.request.contextPath }/uploads/images/blog/${blog.src }');">
 						</a>
 						<div class="text mt-3 float-right d-block">
@@ -462,7 +434,7 @@ $(function(){
 								</div>
 							</div>
 							<h3 class="heading">
-								<a href="#">${blog.title }</a>
+								<a href="${pageContext.request.contextPath}/blog/detail/${blog.id}">${blog.title }</a>
 							</h3>
 
 						</div>
