@@ -21,7 +21,7 @@ public class PasswordRecoveryValidator implements Validator{
       
         PasswordRecovery passwordRecovery = (PasswordRecovery)target;
    
-        if(!passwordRecovery.getNewPassword().matches(pattern) || passwordRecovery.getNewPassword() == ""){
+        if(!passwordRecovery.getNewPassword().matches(pattern) || passwordRecovery.getNewPassword().equals("")){
             errors.rejectValue("newPassword", "matches");
         }
         

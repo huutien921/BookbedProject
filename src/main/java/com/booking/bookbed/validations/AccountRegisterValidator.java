@@ -29,13 +29,13 @@ public class AccountRegisterValidator implements Validator{
         if(accountService.findByUsername(account.getUsername()) !=null){
             errors.rejectValue("username", "exist");
         }
-        if(account.getUsername() == "" || account.getUsername() == null){
+        if(account.getUsername().equals("")){
 
             errors.rejectValue("username", "required");
         }else if(!account.getUsername().matches(regexUsername)){
             errors.rejectValue("username", "matches");
         }
-        if (!account.getEmail().matches(regexEmail) || account.getEmail().equals(null)) {
+        if (!account.getEmail().matches(regexEmail) || account.getEmail().equals("")) {
             errors.rejectValue("email", "matches");
         }else if(accountService.findByUsername(account.getUsername()) !=null){
             errors.rejectValue("email", "exist");

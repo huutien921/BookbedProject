@@ -18,7 +18,7 @@ public class ContactValidator implements Validator{
 	@Override
 	public void validate(Object target, Errors errors) {
         Contact contact = (Contact)target;
-        if(contact.getName() == "" || contact.getName() == null){
+        if(contact.getName().equals("")){
 
             errors.rejectValue("name", "contact.name.required");
         }else if(contact.getName().length() > 250){
@@ -27,17 +27,17 @@ public class ContactValidator implements Validator{
         }
            
             
-            if (contact.getEmail() == "" ) {
+            if (contact.getEmail().equals("") ) {
                 errors.rejectValue("email", "contact.email.required");
             }else if(!contact.getEmail().matches(regexEmail)){
                 errors.rejectValue("email", "contact.email.matches");
             }
-            if(contact.getTitle() == "" || contact.getTitle() == null){
+            if(contact.getTitle().equals("")){
                 errors.rejectValue("title", "contact.title.required");
             }else if(contact.getTitle().length() > 250){
                 errors.rejectValue("title", "contact.title.length");
             }
-            if(contact.getContent() == "" || contact.getContent() == null){
+            if(contact.getContent().equals("") ){
                 errors.rejectValue("content", "contact.content.required");
             }
          
