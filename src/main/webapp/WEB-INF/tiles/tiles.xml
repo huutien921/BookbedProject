@@ -17,4 +17,8 @@
 		<put-attribute name="content" value=""></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/templates/footer/footer.jsp"></put-attribute>
 	</definition>
+		<definition name="partner_template" template="/WEB-INF/views/templates/template_partner.jsp">
+		<put-attribute name="content" value=""></put-attribute>
+		
+	</definition>
 </tiles-definitions>

@@ -31,7 +31,7 @@ public class PasswordViewValidator implements Validator{
         boolean check = BCrypt.checkpw(passwordView.getOldPassword(), password);
         if (!check) {
             errors.rejectValue("oldPassword", "incorrect");
-        }else if(!passwordView.getNewPassword().matches(pattern) || passwordView.getNewPassword() == ""){
+        }else if(!passwordView.getNewPassword().matches(pattern) || passwordView.getNewPassword().equals("")){
             errors.rejectValue("newPassword", "matches");
         }
         

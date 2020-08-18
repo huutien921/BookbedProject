@@ -37,8 +37,6 @@ public class Hotel implements java.io.Serializable {
 	private CopponHotel copponHotel;
 
 	private StarRating starRating;
-	@NotEmpty
-	@Length(max = 250)
 	private String name;
 	private String image;
 	private String description;
