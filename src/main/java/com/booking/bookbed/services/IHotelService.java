@@ -34,5 +34,6 @@ public Hotel find(int id);
 	public List<Hotel> relatedHotelLimitAddPriority(String address, Date checkIn,Date checkOut,int guests,int room , int n, Hotel hotel);
 	public  List<Hotel> findByAccountId(int id);
 	public Hotel save(Hotel hotel);
+	public  List<Hotel> findByUsername(String username);
 	
 }

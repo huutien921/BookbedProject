@@ -609,4 +609,9 @@ public class HotelService implements IHotelService {
 		return result;
 	}
 
+	@Override
+	public List<Hotel> findByUsername(String username) {
+		return hotelRepository.findByUsername(username);
+	}
+
 }

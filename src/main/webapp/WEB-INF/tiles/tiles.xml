@@ -19,6 +19,10 @@
 	</definition>
 		<definition name="partner_template" template="/WEB-INF/views/templates/template_partner.jsp">
 		<put-attribute name="content" value=""></put-attribute>
+	</definition>
 		
+		<definition name="admin_template" template="/WEB-INF/views/templates/template_admin.jsp">
+		<put-attribute name="content" value=""></put-attribute>
+		<put-attribute name="hotels" value="/WEB-INF/views/templates/admin/list_hotel.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>
