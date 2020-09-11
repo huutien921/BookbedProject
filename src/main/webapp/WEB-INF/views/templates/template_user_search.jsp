@@ -77,7 +77,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
 						<a href="${pageContext.request.contextPath }/home/index">
-		<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png" style="width: 150px" height="50px"/>
+		<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png"style="width: 150px; height: 50px"/>
 	</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"

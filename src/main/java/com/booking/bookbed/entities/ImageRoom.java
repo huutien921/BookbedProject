@@ -92,4 +92,16 @@ public class ImageRoom implements java.io.Serializable {
 		this.status = status;
 	}
 
+	public ImageRoom(Integer id) {
+		this.id = id;
+	}
+
+	public ImageRoom(Integer id, Room room, String src, String alt, boolean status) {
+		this.id = id;
+		this.room = room;
+		this.src = src;
+		this.alt = alt;
+		this.status = status;
+	}
+
 }

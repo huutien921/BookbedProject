@@ -110,7 +110,7 @@ public class PartnerController {
 				if (hotelResult != null && roleAccountResult != null) {
 					redirectAttributes.addFlashAttribute("ms", "ok");
 				
-					return "redirect:manager/partner/hotel";
+					return "redirect:/partnerManager/hotel";
 
 				} else {
 					map.put("hotel", hotel);

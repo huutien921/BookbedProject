@@ -1,6 +1,7 @@
 package com.booking.bookbed.modelviews;
 
 public class ImageRoomEntity {
+	private Integer id;
 	private String src;
 	private boolean type;
 	private String alt;
@@ -31,6 +32,14 @@ public class ImageRoomEntity {
 
 	public ImageRoomEntity() {
 		super();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

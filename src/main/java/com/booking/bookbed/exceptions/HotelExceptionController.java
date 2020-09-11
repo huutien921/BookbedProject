@@ -15,5 +15,10 @@ public class HotelExceptionController {
    public ResponseEntity<Object> exception(DateValiException exception) {
       return new ResponseEntity<>("erro date!", HttpStatus.BAD_REQUEST);
    }
+   @ExceptionHandler(value = BadRequestException.class)
+   public String exception(BadRequestException exception) {
+      return "errors/400";
+   }    
+ 
 
 }
