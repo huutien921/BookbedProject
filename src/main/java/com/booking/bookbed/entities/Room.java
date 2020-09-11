@@ -13,10 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -38,13 +37,8 @@ public class Room implements java.io.Serializable {
 	private RoomCategory roomCategory;
 	@JsonIgnore
 	private RoomType roomType;
-	@NotEmpty
 	private String name;
-	
 	private String srcIcon;
-	@NotNull
-	@Min(1)
-	@Max(100)
 	private Double price;
 	private Integer amountOfBed;
 	private Integer capacity;

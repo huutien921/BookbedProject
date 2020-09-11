@@ -76,8 +76,9 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png"
-				style="width: 150px" height="50px">
+						<a href="${pageContext.request.contextPath }/home/index">
+		<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png"style="width: 150px; height: 50px"/>
+	</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
 				aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,9 +91,7 @@
 							class="nav-link">
 							<spring:message code="nav.home"></spring:message>
 						</a></li>
-					<li class="nav-item"><a href="${pageContext.request.contextPath }/partner" class="nav-link">
-							<spring:message code="nav.partner"></spring:message>
-						</a></li>
+				
 					<li class="nav-item"><a href="${pageContext.request.contextPath }/promotions" class="nav-link">
 							<spring:message code="nav.promotions"></spring:message>
 						</a></li>
@@ -151,6 +150,9 @@
 										class="dropdown-item" type="button"><i
 											class="far fa-envelope"></i>
 										<spring:message code="tag.account.promotion" /> </button></a>
+										<a href="${pageContext.request.contextPath}/partner"><button
+											class="dropdown-item" type="button"><i class="far fa-handshake"></i>
+											<spring:message code="nav.partner" /> </button></a>
 								<a href="${pageContext.request.contextPath }/account/logout"><button
 										class="dropdown-item" type="button"><i class="fas fa-power-off"></i>
 										<spring:message code="tag.account.logout" /></button></a>

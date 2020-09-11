@@ -1731,7 +1731,7 @@ textarea.form-control {
     color: #6c757d; }
 
 .form-check-label {
-  margin-bottom: 0; }
+  margin-bottom: 15px; }
 
 .form-check-inline {
   display: -webkit-inline-box;

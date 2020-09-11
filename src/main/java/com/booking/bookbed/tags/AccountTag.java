@@ -30,7 +30,6 @@ public class AccountTag extends RequestContextAwareTag {
             HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
           
-           
             request.setAttribute("account", accountService.findByUsername( authentication.getName()));
             request.getRequestDispatcher(jspPage);
             pageContext.include(jspPage);

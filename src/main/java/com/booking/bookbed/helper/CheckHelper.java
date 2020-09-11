@@ -33,17 +33,17 @@ public class CheckHelper {
 		return roomService.findById(idRoom).getHotel().getAccountByAccountId().getId() == idac;
 		
 	}
-	public String  checkRoleHotel(Hotel hotel , String url) {
+	public boolean  checkRoleHotel(Hotel hotel) {
 		
 		
 		if (hotel.getAccountByIdAcEmployee() != null && hotel.isStatus() && checkServiceCreateHotel(hotel) ) {
-			return url ;
+			return true ;
 		}else if (hotel.getAccountByIdAcEmployee() == null && hotel.isStatus() == false) {
-			return url ;
+			return true ;
 		}else if (hotel.getAccountByIdAcEmployee() == null && hotel.isStatus() == true) {
-			return url ;
+			return true ;
 		} else {
-			return "error.lock";
+			return false;
 		}
 	
 	
