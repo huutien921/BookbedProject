@@ -8,6 +8,7 @@ import com.booking.bookbed.entities.Account;
 import com.booking.bookbed.entities.Hotel;
 import com.booking.bookbed.entities.ImageRoom;
 import com.booking.bookbed.entities.Room;
+import com.booking.bookbed.exceptions.BadRequestException;
 import com.booking.bookbed.helper.CheckHelper;
 import com.booking.bookbed.helper.UploadFileHelper;
 import com.booking.bookbed.services.AccountService;
@@ -61,23 +62,28 @@ public class RoomManagerController {
     public String create(ModelMap map, @PathVariable("id") int idHotel, Authentication authentication) {
         Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
         if (checkHelper.checkHotelofAccountSession(idHotel, account.getId())) {
-            String url = "roomManager.create";
+          
             Room room = new Room();
             map.put("room", room);
             map.put("idHotel", idHotel);
             map.put("bedTypes", bedTypeService.findAll());
             map.put("roomCategories", roomCategoryService.findAll());
+            map.put("account", account);
             map.put("roomTypes", roomTypeService.findAll());
             map.put("title", "Create");
-            return checkHelper.checkRoleHotel(hotelService.findById(idHotel), url);
-        } else {
-            return "error.404";
-        }
+        	if (checkHelper.checkRoleHotel(hotelService.find(idHotel))) {
+				return  "roomManager.create";
+			} else {
+				throw new BadRequestException();
+			
+			}
+		} else {
+			throw new BadRequestException();
+		}
     }
-
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(ModelMap map, @ModelAttribute("room") @Valid Room room, BindingResult bindingResult,
-            @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+            @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,Authentication authentication,
             @RequestParam("idHotel") int idHotel, @RequestParam("images[]") List<MultipartFile> files) {
 
         if (file.isEmpty()) {
@@ -87,20 +93,20 @@ public class RoomManagerController {
             room.setSrcIcon("have");
         }
         roomValidator.validate(room, bindingResult);
+        Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
         if (bindingResult.hasErrors()) {
-            map.put("room", room);
+          map.put("room", room);
             map.put("idHotel", idHotel);
             map.put("bedTypes", bedTypeService.findAll());
             map.put("roomCategories", roomCategoryService.findAll());
             map.put("roomTypes", roomTypeService.findAll());
             map.put("title", "Create");
+            map.put("account",account);
             return "roomManager.create";
         } else {
 
             String fileNames = uploadFileHelper.saveFile(file, "rooms"); // save file
-            System.out.println(fileNames);
             room.setSrcIcon(fileNames);
-
             room.setHotel(new Hotel(idHotel));
             Room roomResult = roomService.save(room);
             if (roomResult != null) {
@@ -146,6 +152,7 @@ public class RoomManagerController {
                 map.put("bedTypes", bedTypeService.findAll());
                 map.put("roomCategories", roomCategoryService.findAll());
                 map.put("roomTypes", roomTypeService.findAll());
+                map.put("account", account);
                 map.put("title", "Create");
                 return "roomManager.create";
             }
@@ -157,22 +164,27 @@ public class RoomManagerController {
     public String edit(ModelMap map, @PathVariable("idRoom") int idRoom, Authentication authentication) {
         Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
         if (checkHelper.checkRoomofAccountSession(idRoom, account.getId())) {
-            String url = "roomManager.edit";
             map.put("room", roomService.findById(idRoom));
             map.put("bedTypes", bedTypeService.findAll());
             map.put("roomCategories", roomCategoryService.findAll());
             map.put("roomTypes", roomTypeService.findAll());
+            map.put("account", account);
             map.put("title", "edit");
-            return checkHelper.checkRoleHotel(roomService.findById(idRoom).getHotel(), url);
-        } else {
-            return "error.404";
-        }
+       	if (checkHelper.checkRoleHotel(roomService.findById(idRoom).getHotel())) {
+				return  "roomManager.edit";
+			} else {
+				throw new BadRequestException();
+			
+			}
+		} else {
+			throw new BadRequestException();
+		}
     }
     @RequestMapping(value = "{id}/edit/{idRoom}", method = RequestMethod.POST)
 	public String edit(ModelMap map, @ModelAttribute("room") @Valid Room room, Errors bindingResult,
-			@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+			@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,Authentication authentication,
 			 @RequestParam("images[]") List<MultipartFile> files) {
-       
+                Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
 		roomValidator.validate(room, bindingResult);
 		if (bindingResult.hasErrors()) {
             room.setHotel(roomService.findById(room.getId()).getHotel());
@@ -180,14 +192,13 @@ public class RoomManagerController {
             map.put("bedTypes", bedTypeService.findAll());
             map.put("roomCategories", roomCategoryService.findAll());
             map.put("roomTypes", roomTypeService.findAll());
+            map.put("account", account);
             map.put("title", "edit");
             return "roomManager.edit";
 		} else {
 			if (!file.isEmpty()) {
                 String fileNames = uploadFileHelper.saveFile(file, "rooms"); // save file
-                System.out.println(fileNames);
                 room.setSrcIcon(fileNames);
-
             }
             room.setHotel(roomService.findById(room.getId()).getHotel());
             Room roomResult = roomService.save(room);
@@ -197,9 +208,7 @@ public class RoomManagerController {
 				if (files.size() > 0) {
 					int temp = 0;
 					for (MultipartFile multipartFile : files) {
-                        if (multipartFile.getSize() > 0){
-                            
-                        
+                        if (multipartFile.getSize() > 0){  
                         String fileName = uploadFileHelper.saveFile(multipartFile, "rooms");
                         ImageRoom imageRoom = new ImageRoom();
                         imageRoom.setRoom(roomResult);
@@ -236,6 +245,7 @@ public class RoomManagerController {
                 map.put("bedTypes", bedTypeService.findAll());
                 map.put("roomCategories", roomCategoryService.findAll());
                 map.put("roomTypes", roomTypeService.findAll());
+                map.put("account", account);
                 map.put("title", "edit");
                 return "roomManager.edit";
 			}

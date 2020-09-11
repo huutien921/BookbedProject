@@ -1,17 +1,13 @@
 package com.booking.bookbed.modelviews;
 
-import com.booking.bookbed.entities.CopponRoom;
-
-public class CopponRoomEntity {
-	private Integer id ;
-	private String roomName;
+public class CopponHotelEntity {
+	private Integer id;
 	private String discountName;
 	private String discountValue;
 	private Boolean status;
 
-	public CopponRoomEntity(Integer id, String roomName, String discountName, String discountValue, Boolean status) {
+	public CopponHotelEntity(Integer id, String discountName, String discountValue, Boolean status) {
 		this.id = id;
-		this.roomName = roomName;
 		this.discountName = discountName;
 		this.discountValue = discountValue;
 		this.status = status;
@@ -23,14 +19,6 @@ public class CopponRoomEntity {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getRoomName() {
-		return roomName;
-	}
-
-	public void setRoomName(String roomName) {
-		this.roomName = roomName;
 	}
 
 	public String getDiscountName() {
@@ -57,9 +45,4 @@ public class CopponRoomEntity {
 		this.status = status;
 	}
 
-	public CopponRoomEntity() {
-	}
-
-
-	
 }

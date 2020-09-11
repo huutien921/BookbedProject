@@ -1,8 +1,8 @@
 package com.booking.bookbed.controller.partner;
 
-
 import com.booking.bookbed.entities.Account;
 import com.booking.bookbed.entities.Hotel;
+import com.booking.bookbed.exceptions.BadRequestException;
 import com.booking.bookbed.helper.CheckHelper;
 import com.booking.bookbed.services.AccountService;
 import com.booking.bookbed.services.HotelService;
@@ -29,14 +29,20 @@ public class HotelManagerController {
 		Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
 		
 		if (checkHelper.checkHotelofAccountSession(id, account.getId())) {
-			String url ="hotelManager.detail";
+		
 			Hotel hotel = hotelService.findById(id);
 				map.put("hotel", hotel);
+				map.put("account", account);
 				map.put("title", "Detail");
-			return checkHelper.checkRoleHotel(hotel, url);
 			
+			if (checkHelper.checkRoleHotel(hotel)) {
+				return  "hotelManager.detail";
+			} else {
+				throw new BadRequestException();
+			
+			}
 		} else {
-			return "error.404";
+			throw new BadRequestException();
 		}
 
 	}

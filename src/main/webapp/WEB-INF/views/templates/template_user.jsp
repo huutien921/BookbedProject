@@ -40,7 +40,8 @@
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
 			<a href="${pageContext.request.contextPath }/home/index">
-				<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png" style="width: 150px; height: 50px"/>
+				<img alt="logo" src="${pageContext.request.contextPath }/resources/user/logos/bookbed_logo.png"
+					style="width: 150px; height: 50px" />
 			</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
@@ -54,7 +55,7 @@
 							class="nav-link">
 							<spring:message code="nav.home"></spring:message>
 						</a></li>
-					
+
 					<li class="nav-item"><a href="${pageContext.request.contextPath }/promotions" class="nav-link">
 							<spring:message code="nav.promotions"></spring:message>
 						</a></li>
@@ -101,23 +102,27 @@
 										class="dropdown-item" type="button"><i class="fas fa-user-cog"></i>
 										<spring:message code="tag.account.change" /></button></a>
 								<a href="${pageContext.request.contextPath }/user/account/surplus"><button
-										class="dropdown-item" type="button"><i
-											class="fas fa-credit-card"></i>
+										class="dropdown-item" type="button"><i class="fas fa-credit-card"></i>
 										<spring:message code="tag.account.surplus" /> </button></a>
 								<a href="${pageContext.request.contextPath }/user/account/statusOrder"><button
 										class="dropdown-item" type="button"><i class="far fa-file-alt"></i>
 										<spring:message code="tag.account.booked" /></button></a>
 								<a href="${pageContext.request.contextPath}/user/account/purchase/list"><button
-										class="dropdown-item" type="button"><i
-											class="fas fa-clipboard-list"></i>
+										class="dropdown-item" type="button"><i class="fas fa-clipboard-list"></i>
 										<spring:message code="tag.account.purchase" /> </button></a>
 								<a href="${pageContext.request.contextPath}/user/account/editEmailNotification"><button
-										class="dropdown-item" type="button"><i
-											class="far fa-envelope"></i>
+										class="dropdown-item" type="button"><i class="far fa-envelope"></i>
 										<spring:message code="tag.account.promotion" /> </button></a>
-										<a href="${pageContext.request.contextPath}/user/partner"><button
-											class="dropdown-item" type="button"><i class="far fa-handshake"></i>
+								<sec:authorize access="!hasRole('ROLE_SUPER_USER')">
+									<a href="${pageContext.request.contextPath}/partner"><button class="dropdown-item"
+											type="button"><i class="far fa-handshake"></i>
 											<spring:message code="nav.partner" /> </button></a>
+								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_SUPER_USER')">
+									<a href="${pageContext.request.contextPath}/partnerManager/hotel"><button class="dropdown-item"
+											type="button"><i class="fas fa-cogs"></i>
+											<spring:message code="nav.manager" /> </button></a>
+								</sec:authorize>
 								<a href="${pageContext.request.contextPath }/account/logout"><button
 										class="dropdown-item" type="button"><i class="fas fa-power-off"></i>
 										<spring:message code="tag.account.logout" /></button></a>

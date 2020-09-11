@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.booking.bookbed.entities.Account;
 import com.booking.bookbed.entities.Hotel;
 import com.booking.bookbed.entities.StarRating;
+import com.booking.bookbed.exceptions.BadRequestException;
 import com.booking.bookbed.helper.CheckHelper;
 import com.booking.bookbed.helper.UploadFileHelper;
 import com.booking.bookbed.services.AccountService;
@@ -46,31 +48,38 @@ public class PartnerManagerController {
 
 	@RequestMapping(value = "hotel", method = RequestMethod.GET)
 	public String statusOrder(Authentication authentication, ModelMap map) {
-		int accountId = accountService.findByUsernameAndStatus(authentication.getName(), true).getId();
-		map.put("hotels", hotelService.findByAccountId(accountId));
-
+		Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
+		map.put("hotels", hotelService.findByAccountId(account.getId()));
+		map.put("account", account);
 		return "partner.manager.hotel";
 	}
 
 	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
-	public String edit(ModelMap map, @PathVariable("id") int id, Authentication authentication) {
+	public String edit(ModelMap map, @PathVariable("id") int id, Authentication authentication) throws Exception {
 		Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
 
 		if (checkHelper.checkHotelofAccountSession(id, account.getId())) {
-			String url = "partner.manager.edit";
+		
 			Hotel hotel = hotelService.findById(id);
 			map.put("hotel", hotelService.findById(id));
+			map.put("account", account);
 			map.put("starRatings", (List<StarRating>) starRatingService.findAll());
-			return checkHelper.checkRoleHotel(hotel, url);
+		
+			if (checkHelper.checkRoleHotel(hotel)) {
+				return  "partner.manager.edit";
+			} else {
+				throw new BadRequestException();
+			
+			}
 		} else {
-			return "error.404";
+			throw new BadRequestException();
 		}
 
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public String edit(@ModelAttribute("hotel") @Valid Hotel hotel, BindingResult bindingResult,
-			@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, ModelMap map) {
+			@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, ModelMap map , Authentication authentication) {
 				if (!file.isEmpty()) {
 					String fileName = uploadFileHelper.saveFile(file,"rooms"); // save file
 					hotel.setImage(fileName);
@@ -79,10 +88,11 @@ public class PartnerManagerController {
 					 hotel.setImage(hotelService.findById(hotel.getId()).getImage());
 				 }
 				hotelValidator.validate(hotel, bindingResult);
-	
+				Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
 		if (bindingResult.hasErrors()) {
 			map.put("hotel", hotel);
 			map.put("starRatings", (List<StarRating>) starRatingService.findAll());
+			map.put("account", account);
 			return "partner.manager.edit";
 		} else {
 		
@@ -114,6 +124,7 @@ public class PartnerManagerController {
 				map.put("ms", "failed");
 				map.put("hotel", hotel);
 				map.put("starRatings", (List<StarRating>) starRatingService.findAll());
+				map.put("account", account);
 				return "partner.manager.edit";
 			}
 		}

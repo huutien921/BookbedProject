@@ -10731,9 +10731,9 @@ a:focus {
     border-radius: .35rem;
     white-space: nowrap;
 }
-.sidebar .nav-item .collapse .collapse-inner .collapse-item .fa{
+/* .sidebar .nav-item .collapse .collapse-inner .collapse-item .fa{
     font-size: 0.75em;
-}
+} */
 .sidebar .nav-item .collapse .collapse-inner .collapse-item:hover,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item:hover {
     background-color: #eaecf4
@@ -11663,3 +11663,6 @@ table{
     min-height: 250px;
 }
 .loading-card{width: 50%; margin: auto; text-align: center}
+.form-group .error-form{
+    color: red;
+}

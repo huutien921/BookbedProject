@@ -44,62 +44,311 @@
                                 });
 
                         });
-                   
+                        //click load table
+                      
                 // image description 
-                $("#modalImage .delete").on('click',()=>{
-                    var load ='<div class="loading-card" id="loading"> <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>';
-                          load += ' <p> <spring:message code="search.result.loading" /></p> </div>';
-                          $('#result').html(load);
-                    var id  = $('#idImgHidden').val();
-                   
+                $("#modalImage .delete").on('click', () => {
+                    var load = '<div class="loading-card" id="loading"> <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>';
+                    load += ' </div>';
+                    $('#modalImage .modal-body').html(load);
+                    var id = $('#idImgHidden').val();
+
                     $.ajax({
-                              
-                                    type: 'GET',
-                                    url: '${pageContext.request.contextPath }/api/roomManager/delete/image',
-                                    data: {
-                                        id : id
-                                    },
-                                    dataType: 'json',
-                                    contentType: 'application/json',
-                                    success: function (result) {
-                                        s = '';
-                                        for (var i = 0; i < result.length; i++) {
-                                            s += ' <div class="col-md-3">';
-                                            s += '<img class="img-description" id="' + result[i].id + '" onclick="modifiedImage(this)" src="${pageContext.request.contextPath }/uploads/images/rooms/' + result[i].src + '" alt="' + result[i].alt + '">';
-                                            s += '</div>';
-                                        }
-                                       
-                                        $('#result').html(s);
-                                        $("#modalImage").modal('hide');
-                                        alert('thanh cong cmnr !')
 
-                                    },
-                                    error: function(err){
-                                        alert('that bai  cmnr !')
-                                    }
+                        type: 'GET',
+                        url: '${pageContext.request.contextPath }/api/roomManager/delete/image',
+                        data: {
+                            id: id
+                        },
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            s = '';
+                            for (var i = 0; i < result.length; i++) {
+                                s += ' <div class="col-md-3">';
+                                s += '<img class="img-description" id="' + result[i].id + '" onclick="modifiedImage(this)" src="${pageContext.request.contextPath }/uploads/images/rooms/' + result[i].src + '" alt="' + result[i].alt + '">';
+                                s += '</div>';
+                            }
 
-                                });
+                            $('#result').html(s);
+                            var mess = '<div class="alert alert-success alert-dismissible">';
+                            mess += '<h4><i class="far fa-trash-alt"></i> Successfully deleted !</h4></div>'
+                            $('#modalImage .modal-body').html(mess);
+                            setTimeout(() => { $("#modalImage").modal('hide') }, 3000)
+
+
+
+                        },
+                        error: function (err) {
+                            var mess = '<div class="alert alert-warning alert-dismissible">';
+                            mess += '<h4><i class="icon fa fa-warning"></i> Fail deleted !</h4></div>'
+                            $('#modalImage .modal-body').html(mess);
+                            setTimeout(() => { $("#modalImage").modal('hide') }, 3000)
+                        }
+
+                    });
                 })
-              
-            });
-            function modifiedImage(ent){
-               
-                var s = '<img class="img-hotel-description" src="'+ent.src+'">'
-                var id = ent.id;
-              
-                if(id == 'null'){
-                  
-                    $("#modalImage .delete").prop('disabled', true);
-                    $("#modalImage .use-avatar").prop('disabled', true);
-                }else{
-                    $("#modalImage .delete").prop('disabled', false);
-                    $("#modalImage .use-avatar").prop('disabled', false);
-                    $('#idImgHidden').val(id);
-                }
-                $("#modalImage .modal-body").html(s);
-                $("#modalImage").modal('show');
+                // discount room ajax post
+                $('#btRoom').on('click', function () {
+                    $('.box-footer #btRoom i').css("display", '');
+                    var data = JSON.stringify(getData());
+                    $.ajax({
 
+                        type: 'POST',
+                        url: '${pageContext.request.contextPath }/api/roomManager/discount/create',
+                        data: data,
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            $('.alert.alert-success').show();
+                            $('.box-footer i').css("display", 'none');
+                            var s = '';
+                            for (var i = 0; i < result.length; i++) {
+                                s += '<tr onclick="getDiscountRoom(' + result[i].id + ')" >';
+
+                                s += '	<td>'
+                                    + result[i].roomName
+                                    + '</td>';
+                                s += '	<td>'
+                                    + result[i].discountName
+                                    + '</td>';
+                                s += '<td>'
+                                    + Math
+                                        .round(result[i].discountValue)
+                                    + '% </td>';
+                                if (result[i].status == true) {
+
+                                    s += '<td> Active </td>';
+                                }
+
+                                else {
+                                    s += '<td> Inactive</td>';
+                                }
+
+                                s += '</tr>'
+                            }
+                            $('#discountName')
+                                .val('');
+                            $('#discountValue')
+                                .val('');
+                                $('#discountNameErr')
+                                .html('');
+                            $('#discountValueErr')
+                                .html('');
+                            $('#status')
+                                .prop(
+                                    'checked',
+                                    false);
+                            $('#tbDiscountRoom tbody').html(s);
+
+                        },
+                        error: function (jqXHR) {
+                            $('.alert').hide()
+                            $('.alert.alert-warning').show();
+                            $('.box-footer i').css("display", 'none');
+                            var errs =  JSON.parse(jqXHR.responseText);
+                            for(var i = 0 ; i < errs.length ; i++){
+
+                            
+                            if (errs[i].field == "discountName") {
+                                if (errs[i].code == "required") {
+                                    $('#discountNameErr').html('<spring:message code="default.required" />');
+                                }else
+                                if (errs[i].code == "length") {
+                                    $('#discountNameErr').html('<spring:message code="default.length" />');
+                                }
+
+                            }
+                            if (errs[i].field == "discountValue") {
+                                if (errs[i].code == "required") {
+                                    $('#discountValueErr').html('<spring:message code="default.required" />');
+                                }else
+                                if (errs[i].code == "percent") {
+                                    $('#discountValueErr').html('<spring:message code="default.percent" />');
+                                }
+
+                            }
+                            }
+
+                        }
+
+
+
+                    });
+                    setTimeout(() => { $('.alert').hide() }, 6000)
+                })
+                // discount hotel ajax post
+               
+                $('#btHotel').on('click', function () {
+                    $('.box-footer #btHotel i').css("display", '');
+                    var data = JSON.stringify(getDataDiscountHotel());
+                    $.ajax({
+                        type: 'POST',
+                        url: '${pageContext.request.contextPath }/api/hotelManager/discount/create',
+                        data: data,
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (result) {
+                           
+                            $('.alert.alert-success').show();
+                            $('.box-footer #btHotel i').css("display", 'none');
+                            var s = '';
+                          
+                                s += '<tr onclick="getDiscountHotel(this)" >';
+
+                             
+                                s += '	<td>'
+                                    + result.discountName
+                                    + '</td>';
+                                s += '<td> <span>'+ Math.round(result.discountValue)
+                                    + '</span>% </td>';
+                                  
+                                if (result.status == true) {
+
+                                    s += '<td> Active </td>';
+                                }
+
+                                else {
+                                    s += '<td> Inactive</td>';
+                                }
+
+                                s += '</tr>';
+                           
+                            $('#discountNameHotel')
+                                .val('');
+                            $('#discountValueHotel')
+                                .val('');
+                                $('#discountNameHotelErr')
+                                .html('');
+                            $('#discountValueHotelErr')
+                                .html('');
+
+                            $('#statusHotel').prop(
+                                    'checked',
+                                    false);
+                                   
+                            $('#tbHotel > tbody').html(s);
+
+                        },
+                        error: function (jqXHR) {
+                            $('.alert').hide()
+                            $('.alert.alert-warning').show();
+                            $('.box-footer #btHotel i').css("display", 'none');
+                            var errs =  JSON.parse(jqXHR.responseText);
+                            for(var i = 0 ; i < errs.length ; i++){
+
+                            
+                            if (errs[i].field == "discountName") {
+                                if (errs[i].code == "required") {
+                                    $('#discountNameHotelErr').html('<spring:message code="default.required" />');
+                                }else
+                                if (errs[i].code == "length") {
+                                    $('#discountNameHotelErr').html('<spring:message code="default.length" />');
+                                }
+
+                            }
+                            if (errs[i].field == "discountValue") {
+                                if (errs[i].code == "required") {
+                                    $('#discountValueHotelErr').html('<spring:message code="default.required" />');
+                                }else
+                                if (errs[i].code == "percent") {
+                                    $('#discountValueHotelErr').html('<spring:message code="default.percent" />');
+                                }
+
+                            }
+                            }
+
+                        }
+
+
+
+                    });
+                    setTimeout(() => { $('.alert').hide() }, 6000)
+                })
+                // table click discount room
+                $('#tbDiscountRoom  tbody  tr').on('click', function () {
+                    var idRoom = $(this).find('td').eq(0).html();
+                    $('#roomId').val(idRoom)
+                    $('#discountName').val($(this).find('td').eq(2).html());
+                    $('#discountValue').val($(this).find('td').eq(3).find('span').html());
+                    var statusDiscount = $(this).find("td").eq(4).html();
+                    if (statusDiscount == 'Active') {
+                        $('#status').prop('checked', true);
+                    } else {
+                        $('#status').prop('checked', false);
+
+                    }
+                })
+
+            });
+    
+    function getDiscountRoom(idRoom) {
+        $.ajax({
+
+            type: 'GET',
+            url: '${pageContext.request.contextPath }/api/roomManager/discount/find',
+            data: {
+                idRoom: idRoom
+            },
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#roomId').val(result.id);
+                $('#discountName').val(result.discountName);
+                $('#discountValue').val(result.discountValue);
+                $('#status').prop('checked', result.status);
             }
+        });
+
+    }
+    // get data form discount room
+    function getData() {
+        dataForm = {
+            id: $('#roomId').val(),
+            discountName: $('#discountName').val(),
+            discountValue: $('#discountValue').val(),
+            status: $('#status').is(":checked")
+
+        }
+        return dataForm;
+    }
+    // get data form discount  hotel  
+      function getDataDiscountHotel() {
+        dataForm = {
+            id: $('#hotelId').val(),
+            discountName: $('#discountNameHotel').val(),
+            discountValue: $('#discountValueHotel').val(),
+            status: $('#statusHotel').is(":checked")
+
+        }
+        return dataForm;
+    }
+    //show modal modified imge
+    function modifiedImage(ent) {
+
+        var s = '<img class="img-hotel-description" src="' + ent.src + '">'
+        var id = ent.id;
+
+        if (id == 'null') {
+
+            $("#modalImage .delete").prop('disabled', true);
+            $("#modalImage .use-avatar").prop('disabled', true);
+        } else {
+            $("#modalImage .delete").prop('disabled', false);
+            $("#modalImage .use-avatar").prop('disabled', false);
+            $('#idImgHidden').val(id);
+        }
+        $("#modalImage .modal-body").html(s);
+        $("#modalImage").modal('show');
+
+    }
+    //set discount for form from table
+    function getDiscountHotel(ent){
+     $('#discountNameHotel').val($(ent).find("td").eq(0).html());
+     $('#discountValueHotel').val($(ent).find("td").eq(1).find("span").html());
+     $('#statusHotel').prop('checked', $(ent).find("td").eq(2).html() == 'Active'? true : false );
+     alert(n)
+    }
 
 </script>
 <div class="container-fluid">
@@ -116,12 +365,13 @@
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                  
+
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" id="idImgHidden"/>
+                    <input type="hidden" id="idImgHidden" />
                     <button type="button" class="btn btn-secondary delete"> <i class="far fa-trash-alt"></i></button>
-                    <button type="button" class="btn btn-primary use-avatar"><i class="fas fa-cog"></i> use avatar for hotel</button>
+                    <button type="button" class="btn btn-primary use-avatar"><i class="fas fa-cog"></i> use avatar for
+                        hotel</button>
                 </div>
             </div>
         </div>
@@ -212,15 +462,179 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Image description</h6>
                                 </div>
-                            
+
                                 <div class="row card-body" id="result">
-                             
+
                                 </div>
                             </div>
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane " id="discount">
-                            eddddd
+                            <div class="alert alert-success alert-dismissible" style="display: none;"> <i
+                                class="icon fa fa-check"></i>
+                            Add discount successfully </div>
+                        <div class="alert alert-warning alert-dismissible" style="display: none;"> <i
+                                class="fas fa-exclamation">
+                            </i> sorry ! Fail server </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">Coppon Room</h4>
+                                    </div>
+
+                                    <form role="form">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label>Rooms Apply</label> <select id="roomId" required="required"
+                                                    class="form-control " data-placeholder="Select a room">
+
+                                                    <c:forEach var="room" items="${hotel.rooms }">
+                                                        <option value="${room.id }">${room.name }</option>
+                                                    </c:forEach>
+
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="discountName">Discount name</label> <input type="text"
+                                                    class="form-control" id="discountName" placeholder="Discount name">
+                                                    <small class="error-form" id="discountNameErr"></small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="discountValue">Discount value (%)</label>
+                                                <input type="text" class="form-control" id="discountValue"
+                                                    placeholder="Discount value">
+                                                    <small class="error-form" id="discountValueErr"></small>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label> <input id="status" type="checkbox">
+                                                    Active now
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+
+                                        <div class="box-footer">
+                                            <button type="button" id="btRoom" class="btn btn-primary"><i
+                                                    style="display: none;"
+                                                    class="fa fa-spinner fa-spin fa-1x fa-fw"></i> Submit</button>
+                                            
+                                        </div>
+                                    </form>
+                                    <table id="tbDiscountRoom" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Room</th>
+                                                <th>Discount</th>
+                                                <th>Value</th>
+                                                <th>Status</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            <c:forEach var="room" items="${ hotel.rooms}">
+                                                <tr>
+                                                    <td style="display: none;">${room.id }</td>
+                                                    <td>${room.name }</td>
+                                                    <td>${room.copponRoom.name }</td>
+                                                    <td><span>${Math.round(room.copponRoom.sale)} </span>%</td>
+                                                    <td>${room.copponRoom.status ? 'Active' : 'Inactive' }</td>
+                                                </tr>
+
+
+
+
+                                            </c:forEach>
+
+
+
+
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr>
+                                                <th>Room</th>
+                                                <th>Discount</th>
+                                                <th>Value</th>
+                                                <th>Status</th>
+
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">Discount hotel</h4>
+
+                                    </div>
+                                  
+                                    <form role="form">
+                                        <div class="box-body">
+
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Discount name</label> <input type="text"
+                                                    class="form-control" id="discountNameHotel"
+                                                    value="" placeholder="Discount name">
+                                                    <small class="error-form" id="discountNameHotelErr"></small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Discount value (%)</label>
+                                                <input type="text" class="form-control" id="discountValueHotel"
+                                                    placeholder="Discount value" value="">
+                                                    <small class="error-form" id="discountValueHotelErr"></small>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label> <input id="statusHotel" ${hotel.copponHotel.status ? 'checked'
+                                                        :''} type="checkbox">
+                                                    Active now
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+
+                                        <div class="box-footer">
+                                            <button type="button" id="btHotel"   class="btn btn-primary"><i
+                                                style="display: none;"
+                                                class="fa fa-spinner fa-spin fa-1x fa-fw"></i> Submit</button>
+                                         <input type="hidden" value="${hotel.id}" id="hotelId">
+                                        </div>
+                                    </form>
+                                    <table id="tbHotel"  class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Discount</th>
+                                               
+                                                <th style="width: 40px">Value</th>
+                                                <th>Status</th>
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+                                            <c:if test="${hotel.copponHotel != null }">
+                                                <tr onclick="getDiscountHotel(this)">
+
+                                                    <td>${hotel.copponHotel.name }</td>
+                                                   
+                                                    <td><span>${Math.round(hotel.copponHotel.sale)} </span>%</td>
+                                                    <td>${hotel.copponHotel.status ? 'Active' : 'Inactive' }</td>
+                                                </tr>
+                                            </c:if>
+                                        </tbody>
+
+
+
+
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.tab-pane -->
 
