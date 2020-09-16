@@ -89,6 +89,39 @@
                     });
                 })
                 // discount room ajax post
+                // set image description to avatar
+                $("#modalImage .use-avatar").on('click', () => {
+                    var load = '<div class="loading-card" id="loading"> <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>';
+                    load += ' </div>';
+                    $('#modalImage .modal-body').html(load);
+                    var id = $('#idImgHidden').val();
+                    
+                    $.ajax({
+
+                        type: 'GET',
+                        url: '${pageContext.request.contextPath }/api/roomManager/updateToAvatar',
+                        data: {
+                            id : id
+                        },
+                        dataType: 'text',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            var mess = '<div class="alert alert-success alert-dismissible">';
+                            mess += '<h4><i class="far fa-trash-alt"></i> Successfully Avatar !</h4></div>'
+                            $('#modalImage .modal-body').html(mess);
+                            setTimeout(() => { $("#modalImage").modal('hide') }, 1500)
+                            setTimeout(() => { location.reload() }, 3000)
+                        },
+                        error: function (err) {
+                            var mess = '<div class="alert alert-warning alert-dismissible">';
+                            mess += '<h4><i class="icon fa fa-warning"></i> Fail Update Avatar !</h4></div>'
+                            $('#modalImage .modal-body').html(mess);
+                            setTimeout(() => { $("#modalImage").modal('hide') }, 3000)
+                        }
+
+                    });
+                })
+                // end 
                 $('#btRoom').on('click', function () {
                     $('.box-footer #btRoom i').css("display", '');
                     var data = JSON.stringify(getData());

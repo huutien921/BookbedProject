@@ -6,11 +6,13 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.booking.bookbed.entities.ImageRoom;
+import com.booking.bookbed.entities.Room;
 import com.booking.bookbed.helper.UploadFileHelper;
 import com.booking.bookbed.modelviews.CopponRoomEntity;
 import com.booking.bookbed.modelviews.ImageRoomEntity;
 import com.booking.bookbed.services.CoppedRoomService;
 import com.booking.bookbed.services.ImageRoomService;
+import com.booking.bookbed.services.RoomService;
 import com.booking.bookbed.validations.CopponRoomEntityValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class RoomManagerRestController {
 	private CoppedRoomService copponRoomService;
 	@Autowired
 	private CopponRoomEntityValidator copponRoomEntityValidator;
+	@Autowired
+	private RoomService roomService;
 
 	@RequestMapping(value = "images", produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -89,6 +93,27 @@ public class RoomManagerRestController {
 	public CopponRoomEntity  discountfind(@RequestParam("idRoom") int idRoom) {
 
 		return copponRoomService.findByIdRoom(idRoom);
+
+	}
+	
+	@RequestMapping(value = "updateToAvatar",method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE },consumes = { MediaType.APPLICATION_JSON_VALUE })
+
+	public ResponseEntity<Object> updateToAvatar(@RequestParam("id") int id) {
+		ImageRoom imageRoom = imageRoomService.findById(id);
+		if (imageRoom == null) {
+			return new ResponseEntity<>("not found", HttpStatus.BAD_REQUEST);
+		}
+		Room room = imageRoom.getRoom();
+		try {
+			String temp = room.getSrcIcon();
+			room.setSrcIcon(imageRoom.getSrc());
+			roomService.save(room);
+			imageRoom.setSrc(temp);
+			imageRoomService.save(imageRoom);
+			return new ResponseEntity<>("success full" , HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 
 	}
 
