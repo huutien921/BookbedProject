@@ -541,7 +541,7 @@
                                                     <td style="display: none;">${room.id }</td>
                                                     <td>${room.name }</td>
                                                     <td>${room.copponRoom.name }</td>
-                                                    <td><span>${Math.round(room.copponRoom.sale)} </span>%</td>
+                                                    <td><span>${room.copponRoom.sale != null ? Math.round(room.copponRoom.sale) : 0} </span>%</td>
                                                     <td>${room.copponRoom.status ? 'Active' : 'Inactive' }</td>
                                                 </tr>
 
