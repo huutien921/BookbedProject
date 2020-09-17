@@ -11620,6 +11620,12 @@ body.sidebar-toggled footer.sticky-footer {
     border-radius: 15pt;
     padding: 1em;
 }
+.img-description-edit {
+    width: 130px;
+    height: 110px;
+    border-radius: 15pt;
+    padding: 1em;
+}
 
 .fa.fa-fw.fa-check-square {
     color: blue;
@@ -11661,6 +11667,9 @@ table{
 }
 .card.shadow.mb-4{
     min-height: 250px;
+}
+form .card.shadow.mb-4{
+    min-height: 100px;
 }
 .loading-card{width: 50%; margin: auto; text-align: center}
 .form-group .error-form{
