@@ -53,15 +53,14 @@ public class RoomManagerRestController {
 	@RequestMapping(value = "delete/image",method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE },consumes = { MediaType.APPLICATION_JSON_VALUE })
 
 	public ResponseEntity<Object> deleteImageRoom(@RequestParam("id") int id) {
-		ImageRoom imageRoom = imageRoomService.findById(id);
-		int idRoom = imageRoom.getRoom().getId();
 		try {
-			
-			imageRoomService.delete(new ImageRoom(id));
+			ImageRoom imageRoom = imageRoomService.findById(id);
+			int idRoom = imageRoom.getRoom().getId();
 			fileHelper.deleteFile(imageRoom.getSrc());
+			imageRoomService.delete(new ImageRoom(id));
 			return new ResponseEntity<>( imageRoomService.findByIdRoomImageRoomEntity(idRoom), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(imageRoomService.findByIdRoomImageRoomEntity(idRoom), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ArrayList<ImageRoom>(), HttpStatus.BAD_REQUEST);
 		}
 
 	}

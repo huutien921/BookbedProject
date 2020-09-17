@@ -356,7 +356,7 @@
         }
         return dataForm;
     }
-    //show modal modified imge
+    //show modal modified image
     function modifiedImage(ent) {
 
         var s = '<img class="img-hotel-description" src="' + ent.src + '">'

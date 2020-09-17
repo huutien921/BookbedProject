@@ -3,7 +3,9 @@ package com.booking.bookbed.validations;
 import com.booking.bookbed.entities.Hotel;
 import com.booking.bookbed.entities.Room;
 import com.booking.bookbed.helper.Utils;
+import com.booking.bookbed.services.RoomService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,6 +13,8 @@ import org.springframework.validation.Validator;
 @Component("roomValidator")
 public class RoomValidator implements Validator {
     private String pattern = "-?\\d+(\\.\\d+)?";
+    @Autowired
+    private RoomService roomService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -19,7 +23,8 @@ public class RoomValidator implements Validator {
     }
 
     public void validateCustom(Room room, int size, Errors errors) {
-        if (12 - room.getImageRooms().size() > size) {
+      int  imageSize = roomService.findById(room.getId()).getImageRooms().size();
+        if (12 - imageSize < size) {
             errors.rejectValue("imageRooms", "room.imageRooms.size");
         }
         validate(room, errors);

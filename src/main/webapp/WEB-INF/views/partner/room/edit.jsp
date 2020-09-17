@@ -66,6 +66,49 @@
             }
         })
         // end
+        // image description delete
+        $("#modalImage .delete").on('click', () => {
+                    var load = '<div class="loading-card" id="loading"> <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>';
+                    load += ' </div>';
+                    $('#modalImage .modal-body').html(load);
+                    var id = $('#idImgHidden').val();
+
+                    $.ajax({
+
+                        type: 'GET',
+                        url: '${pageContext.request.contextPath }/api/roomManager/delete/image',
+                        data: {
+                            id: id
+                        },
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            s = '';
+                            for (var i = 0; i < result.length; i++) {
+                                s += ' <div class="col-md-3">';
+                                s += '<img class="img-description-edit" id="' + result[i].id + '" onclick="modifiedImage(this)" src="${pageContext.request.contextPath }/uploads/images/rooms/' + result[i].src + '" alt="' + result[i].alt + '">';
+                                s += '</div>';
+                            }
+
+                            $('#result').html(s);
+                            var mess = '<div class="alert alert-success alert-dismissible">';
+                            mess += '<h4><i class="far fa-trash-alt"></i> Successfully deleted !</h4></div>'
+                            $('#modalImage .modal-body').html(mess);
+                            setTimeout(() => { $("#modalImage").modal('hide') }, 3000)
+
+
+
+                        },
+                        error: function (err) {
+                            var mess = '<div class="alert alert-warning alert-dismissible">';
+                            mess += '<h4><i class="icon fa fa-warning"></i> Fail deleted !</h4></div>'
+                            $('#modalImage .modal-body').html(mess);
+                            setTimeout(() => { $("#modalImage").modal('hide') }, 3000)
+                        }
+
+                    });
+                })
+                // end delete image description
     })
 
     function show(input) {
@@ -81,6 +124,17 @@
             filerdr.readAsDataURL(input.files[0]);
         }
     }
+    //show modal modified image
+    function modifiedImage(ent) {
+
+        var s = '<img class="img-hotel-description" src="' + ent.src + '">'
+        var id = ent.id;
+            $('#idImgHidden').val(id);
+        
+        $("#modalImage .modal-body").html(s);
+        $("#modalImage").modal('show');
+
+    }
 </script>
 <style>
     div .btn {
@@ -88,6 +142,28 @@
     }
 </style>
 <div class="container-fluid">
+    <!-- Modal -->
+    <div class="modal fade" id="modalImage" tabindex="-1" role="dialog" aria-labelledby="modalImageTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalImageTitle">Change</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="idImgHidden" />
+                    <button type="button" class="btn btn-secondary delete"> <i class="far fa-trash-alt"></i></button>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4">
 
@@ -206,14 +282,16 @@
                                     <h6 class="m-0 font-weight-bold text-primary"> Image description</h6>
                                 </div>
 
-                                <div class="row card-body">
+                                <div class="row card-body" id="result">
                                     <c:forEach var="item" items="${room.imageRooms}">
-                                        <div class="col-md-3"><img class="img-description-edit" src="${pageContext.request.contextPath }/uploads/images/rooms/${item.src}" alt="${item.alt}" /></div>
+                                        <div class="col-md-3"><img class="img-description-edit" id="${item.id}"
+                                                src="${pageContext.request.contextPath }/uploads/images/rooms/${item.src}" onclick="modifiedImage(this)"
+                                                alt="${item.alt}" /></div>
                                     </c:forEach>
-                                
-                                   
-                              
-                                  
+
+
+
+
                                 </div>
                             </div>
                             <!-- end image description -->
