@@ -226,7 +226,9 @@
 
                                 </div>
                                 <input type="file" class="form-control" id="images" name="images[]" multiple />
-
+                                <small style="color: red;">
+                                    <form:errors path="imageRooms"></form:errors>
+                                </small>
                             </div>
                             <div class="row">
 

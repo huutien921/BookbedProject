@@ -185,9 +185,12 @@ public class RoomManagerController {
 			@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,Authentication authentication,
 			 @RequestParam("images[]") List<MultipartFile> files) {
                 Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
-		roomValidator.validate(room, bindingResult);
+        roomValidator.validateCustom(room,files.size(),bindingResult);
+       
 		if (bindingResult.hasErrors()) {
-            room.setHotel(roomService.findById(room.getId()).getHotel());
+           Room roomResult = roomService.findById(room.getId());
+            room.setHotel(roomResult.getHotel());
+            room.setImageRooms(roomResult.getImageRooms());
             map.put("room", room);
             map.put("bedTypes", bedTypeService.findAll());
             map.put("roomCategories", roomCategoryService.findAll());
@@ -204,7 +207,7 @@ public class RoomManagerController {
             Room roomResult = roomService.save(room);
             
 			if (roomResult != null) {
-
+          
 				if (files.size() > 0) {
 					int temp = 0;
 					for (MultipartFile multipartFile : files) {
