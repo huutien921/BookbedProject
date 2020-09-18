@@ -34,8 +34,10 @@ public class HomeController {
 		map.put("blogs", blogService.findLimitByStatus(true, 3));
 		map.put("about", blogService.findById(1));
 		map.put("partnersPayments", partnersService.findByNameAndStt("PAYMENT", true));
+		
 		try {
 			map.put("panel", panelService.findById(1));
+			
 		} catch (Exception e) {
 			map.put("panel", null);
 		}

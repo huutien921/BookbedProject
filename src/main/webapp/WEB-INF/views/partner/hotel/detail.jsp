@@ -312,6 +312,11 @@
 
                     }
                 })
+                // hide message time out
+                setTimeout(() => {
+                    $('.alert').hide();
+                }, 5000);
+               
 
             });
     
@@ -356,7 +361,7 @@
         }
         return dataForm;
     }
-    //show modal modified imge
+    //show modal modified image
     function modifiedImage(ent) {
 
         var s = '<img class="img-hotel-description" src="' + ent.src + '">'
@@ -429,6 +434,18 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="room">
+                            <!-- message -->
+                            <c:if test="${ms == 'ok' || ms =='noImageDescription'}">
+                            <div class="alert alert-success alert-dismissible"> <i
+                                class="icon fa fa-check"></i>
+                           Update successfully! </div>
+                        </c:if>
+                        <c:if test="${ms =='fail'}">
+                           <div class="alert alert-warning alert-dismissible"> <i
+                            class="fas fa-exclamation">
+                        </i> Sorry ! Update fail </div>
+                    </c:if>
+                            <!-- ./message -->
                             <!-- rooms -->
                             <div class="box-body">
                                 <table id="dataTable" class="table table-bordered table-hover table-center">

@@ -185,71 +185,80 @@ public class RoomManagerController {
 			@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,Authentication authentication,
 			 @RequestParam("images[]") List<MultipartFile> files) {
                 Account account = accountService.findByUsernameAndStatus(authentication.getName(), true);
-		roomValidator.validate(room, bindingResult);
-		if (bindingResult.hasErrors()) {
-            room.setHotel(roomService.findById(room.getId()).getHotel());
-            map.put("room", room);
-            map.put("bedTypes", bedTypeService.findAll());
-            map.put("roomCategories", roomCategoryService.findAll());
-            map.put("roomTypes", roomTypeService.findAll());
-            map.put("account", account);
-            map.put("title", "edit");
-            return "roomManager.edit";
-		} else {
-			if (!file.isEmpty()) {
-                String fileNames = uploadFileHelper.saveFile(file, "rooms"); // save file
-                room.setSrcIcon(fileNames);
-            }
-            room.setHotel(roomService.findById(room.getId()).getHotel());
-            Room roomResult = roomService.save(room);
-            
-			if (roomResult != null) {
-
-				if (files.size() > 0) {
-					int temp = 0;
-					for (MultipartFile multipartFile : files) {
-                        if (multipartFile.getSize() > 0){  
-                        String fileName = uploadFileHelper.saveFile(multipartFile, "rooms");
-                        ImageRoom imageRoom = new ImageRoom();
-                        imageRoom.setRoom(roomResult);
-                        imageRoom.setSrc(fileName);
-                        imageRoom.setAlt(roomResult.getName());
-                        ImageRoom imageRoomResult = imageRoomService.save(imageRoom);
-						if (imageRoomResult != null) {
-							temp++;
-						}
-						if (temp > 20) {
-							break;
-						}
-
-					}}
-					if (temp > 0) {
-						redirectAttributes.addFlashAttribute("ms", "ok");
-
-						return "redirect:/hotelManager/detail/" + roomResult.getHotel().getId();
-					} else {
-						redirectAttributes.addFlashAttribute("ms", "noImageDescription");
-
-						return "redirect:/hotelManager/detail/" + roomResult.getHotel().getId();
-					}
-
-				} else {
-
-					redirectAttributes.addFlashAttribute("ms", "noImageDescription");
-
-					return "redirect:/hotelManager/detail/" + roomResult.getHotel().getId();
-				}
-
-			} else {
-                map.put("room", room);
-                map.put("bedTypes", bedTypeService.findAll());
-                map.put("roomCategories", roomCategoryService.findAll());
-                map.put("roomTypes", roomTypeService.findAll());
-                map.put("account", account);
-                map.put("title", "edit");
-                return "roomManager.edit";
-			}
-		}
+        roomValidator.validateCustom(room,files.size(),bindingResult);
+       try {
+        if (bindingResult.hasErrors()) {
+            Room roomResult = roomService.findById(room.getId());
+             room.setHotel(roomResult.getHotel());
+             room.setImageRooms(roomResult.getImageRooms());
+             map.put("room", room);
+             map.put("bedTypes", bedTypeService.findAll());
+             map.put("roomCategories", roomCategoryService.findAll());
+             map.put("roomTypes", roomTypeService.findAll());
+             map.put("account", account);
+             map.put("title", "edit");
+             return "roomManager.edit";
+         } else {
+             if (!file.isEmpty()) {
+                String fileNameOld = roomService.findById(room.getId()).getSrcIcon();
+                uploadFileHelper.deleteFile(fileNameOld);
+                 String fileNames = uploadFileHelper.saveFile(file, "rooms"); // save file
+                 room.setSrcIcon(fileNames);
+             }
+             room.setHotel(roomService.findById(room.getId()).getHotel());
+             Room roomResult = roomService.save(room);
+             if (roomResult != null) {
+                 if (files.size() > 0) {
+                     int temp = 0;
+                     for (MultipartFile multipartFile : files) {
+                         if (multipartFile.getSize() > 0){  
+                         String fileName = uploadFileHelper.saveFile(multipartFile, "rooms");
+                         ImageRoom imageRoom = new ImageRoom();
+                         imageRoom.setRoom(roomResult);
+                         imageRoom.setSrc(fileName);
+                         imageRoom.setAlt(roomResult.getName());
+                         ImageRoom imageRoomResult = imageRoomService.save(imageRoom);
+                         if (imageRoomResult != null) {
+                             temp++;
+                         }
+                         if (temp > 20) {
+                             break;
+                         }
+ 
+                     }}
+                     if (temp > 0) {
+                         redirectAttributes.addFlashAttribute("ms", "ok");
+ 
+                         return "redirect:/hotelManager/detail/" + roomResult.getHotel().getId();
+                     } else {
+                         redirectAttributes.addFlashAttribute("ms", "noImageDescription");
+ 
+                         return "redirect:/hotelManager/detail/" + roomResult.getHotel().getId();
+                     }
+ 
+                 } else {
+ 
+                     redirectAttributes.addFlashAttribute("ms", "noImageDescription");
+ 
+                     return "redirect:/hotelManager/detail/" + roomResult.getHotel().getId();
+                 }
+ 
+             } else {
+                 map.put("room", room);
+                 map.put("bedTypes", bedTypeService.findAll());
+                 map.put("roomCategories", roomCategoryService.findAll());
+                 map.put("roomTypes", roomTypeService.findAll());
+                 map.put("account", account);
+                 map.put("title", "edit");
+                 return "roomManager.edit";
+             }
+         }
+       } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("ms", "fail");
+ 
+        return "redirect:/hotelManager/detail/" + room.getId();
+       }
+	
 
 	}
 
