@@ -7,7 +7,7 @@
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
       
       <i class="fas fa-hotel"></i>
-      <span>Hotels</span>
+      <span><spring:message code="nav.partner.hotel" /></span>
     </a>
     <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">

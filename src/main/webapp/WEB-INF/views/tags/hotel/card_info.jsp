@@ -35,7 +35,7 @@
 
                         <c:set var="roomAvailable" value="0"></c:set>
                         <c:forEach var="room" items="${hotel.rooms }">
-                            <c:if test="${room.status !=null}">
+                            <c:if test="${room.status !=null && room.status ==true}">
 
                                 <c:set var="amountRoom" value="${amountRoom + room.amountOfRoom }"></c:set>
                             </c:if>
