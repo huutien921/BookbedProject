@@ -200,14 +200,14 @@ public class RoomManagerController {
              return "roomManager.edit";
          } else {
              if (!file.isEmpty()) {
+                String fileNameOld = roomService.findById(room.getId()).getSrcIcon();
+                uploadFileHelper.deleteFile(fileNameOld);
                  String fileNames = uploadFileHelper.saveFile(file, "rooms"); // save file
                  room.setSrcIcon(fileNames);
              }
              room.setHotel(roomService.findById(room.getId()).getHotel());
              Room roomResult = roomService.save(room);
-             
              if (roomResult != null) {
-           
                  if (files.size() > 0) {
                      int temp = 0;
                      for (MultipartFile multipartFile : files) {
