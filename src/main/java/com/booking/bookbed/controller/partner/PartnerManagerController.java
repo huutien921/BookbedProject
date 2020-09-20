@@ -119,7 +119,7 @@ public class PartnerManagerController {
 			}
 
 			else {
-				map.put("ms", "failed");
+				map.put("ms", "fail");
 				map.put("hotel", hotel);
 				map.put("starRatings", (List<StarRating>) starRatingService.findAll());
 				map.put("account", account);
