@@ -81,7 +81,7 @@ public class RoomManagerController {
 			throw new BadRequestException();
 		}
     }
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = "create/{id}", method = RequestMethod.POST)
     public String create(ModelMap map, @ModelAttribute("room") @Valid Room room, BindingResult bindingResult,
             @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,Authentication authentication,
             @RequestParam("idHotel") int idHotel, @RequestParam("images[]") List<MultipartFile> files) {
