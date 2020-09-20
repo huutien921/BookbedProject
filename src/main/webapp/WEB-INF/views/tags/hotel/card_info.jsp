@@ -14,20 +14,20 @@
 
                         <c:if test="${hotel.accountByIdAcEmployee == null }">
                             <p class="text-center status">
-                                <i class="fa fa-fw fa-hourglass"></i>Awaiting
+                                <i class="fa fa-fw fa-hourglass"></i><spring:message code="partner.hotel.awaiting" />
                             </p>
 
                         </c:if>
                         <c:if test="${hotel.accountByIdAcEmployee != null and hotel.status == true }">
                             <p class="text-muted text-center" style="color: #0033cc;">
-                                <i class="fa fa-fw fa-check-square"></i>Active
+                                <i class="fa fa-fw fa-check-square"></i><spring:message code="partner.hotel.active" />
                             </p>
 
                         </c:if>
 
                         <c:if test="${hotel.accountByIdAcEmployee != null and hotel.status == false }">
                             <p class="text-muted text-center" style="color: #ff0000;">
-                                <i class="fa fa-fw fa-times"></i> Prohibit
+                                <i class="fa fa-fw fa-times"></i> <spring:message code="partner.hotel.prohibit" />
                             </p>
 
                         </c:if>
@@ -47,13 +47,13 @@
                         </c:forEach>
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>rooms</b> <a class="float-right">${ amountRoom}</a>
+                                <b><spring:message code="partner.hotel.rooms.partner" /></b> <a class="float-right">${ amountRoom}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Rooms available</b> <a class="float-right">${amountRoom -roomAvailable }</a>
+                                <b><spring:message code="partner.hotel.rooms.available" /></b> <a class="float-right">${amountRoom -roomAvailable }</a>
                             </li>
                             <li class="list-group-item">
-                                <b>use service</b>
+                                <b><spring:message code="partner.hotel.rooms.service" /></b>
                                 <a class="float-right">
                                     <c:forEach var="service" items="${hotel.serviceHotels }">
                                         <c:if test="${service.startDate < now and  service.endDate > now and service.status == true}">
@@ -69,7 +69,7 @@
                             </li>
                         </ul>
 
-                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                        <a href="#" class="btn btn-primary btn-block"><b><spring:message code="button.update" /></b></a>
                     </div>
                     <!-- /.card-body -->
 
@@ -78,13 +78,13 @@
                 <!-- About Me Box -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title text-center">Thong tin</h3>
+                        <h3 class="card-title text-center"><spring:message code="partner.hotel.info" /></h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
 
-                        <h4><i class="fas fa-map-marker-alt mr-1"></i> Location</h4>
+                        <h4><i class="fas fa-map-marker-alt mr-1"></i> <spring:message code="partner.hotel.location" /></h4>
 
                         <p class="text-muted">${hotel.addressFull }</p>
 
@@ -92,7 +92,7 @@
 
                         <hr>
 
-                        <h4><i class="fab fa-usps"></i> tien nghi</h4>
+                        <h4><i class="fab fa-usps"></i><spring:message code="partner.hotel.facilities" /></h4>
 
                         <div>
                             <c:if test="${hotel.wifi }">
@@ -100,7 +100,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fas fa-wifi"></i>
                                 </span>
-                                    <span class="text">wifi </span>
+                                    <span class="text"><spring:message code="search.result.filter.wifi" /> </span>
                                 </div>
                             </c:if>
                             <c:if test="${hotel.parking }">
@@ -108,7 +108,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fa fa-fw fa-car"></i>
                                 </span>
-                                    <span class="text">Parking </span>
+                                    <span class="text"><spring:message code="search.result.filter.parking" /> </span>
                                 </div>
 
                             </c:if>
@@ -117,7 +117,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fa fa-fw fa-heart"></i>
                                 </span>
-                                    <span class="text"> spa</span>
+                                    <span class="text"> <spring:message code="search.result.filter.spa" /></span>
                                 </div>
 
                             </c:if>
@@ -126,7 +126,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fa fa-fw fa-heartbeat"></i>
                                 </span>
-                                    <span class="text"> Gym</span>
+                                    <span class="text"> <spring:message code="search.result.filter.gym" /></span>
                                 </div>
 
                             </c:if>
@@ -135,7 +135,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fa fa-fw fa-car"></i>
                                 </span>
-                                    <span class="text"> Car Rental</span>
+                                    <span class="text"><spring:message code="search.result.filter.carRental" /></span>
                                 </div>
 
                             </c:if>
@@ -144,7 +144,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fa fa-fw fa-plane"></i>
                                 </span>
-                                    <span class="text"> Airport transfers</span>
+                                    <span class="text"> <spring:message code="search.result.filter.airportTransfer" /></span>
                                 </div>
 
                             </c:if>
@@ -153,7 +153,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fas fa-utensils"></i>
                                 </span>
-                                    <span class="text">Breakfast</span>
+                                    <span class="text"><spring:message code="search.result.filter.freeBreakfast" /></span>
                                 </div>
 
                             </c:if>
@@ -162,7 +162,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fas fa-square"></i>
                                 </span>
-                                    <span class="text">Elevator</span>
+                                    <span class="text"><spring:message code="search.result.filter.elevator" /></span>
                                 </div>
 
                             </c:if>
@@ -171,7 +171,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fas fa-swimmer"></i>
                                 </span>
-                                    <span class="text">Swimming Pool</span>
+                                    <span class="text"><spring:message code="search.result.filter.swimmingPool" /></span>
                                 </div>
 
                             </c:if>
@@ -180,7 +180,7 @@
                                     <span class="icon text-white-50">
                                     <i class="far fa-user"></i>
                                 </span>
-                                    <span class="text">Receptionist</span>
+                                    <span class="text"><spring:message code="search.result.filter.receptionist" /></span>
                                 </div>
 
                             </c:if>
@@ -189,7 +189,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fas fa-thermometer-empty"></i>
                                 </span>
-                                    <span class="text">AirConditioner</span>
+                                    <span class="text"><spring:message code="search.result.filter.airConditioner" /></span>
                                 </div>
 
                             </c:if>
@@ -198,7 +198,7 @@
                                     <span class="icon text-white-50">
                                     <i class="far fa-window-close"></i>
                                 </span>
-                                    <span class="text">Free Cancellation</span>
+                                    <span class="text"><spring:message code="search.result.filter.freeCancellation" /></span>
                                 </div>
 
                             </c:if>
@@ -208,7 +208,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fas fa-users"></i>
                                 </span>
-                                    <span class="text">Meeting</span>
+                                    <span class="text"><spring:message code="search.result.filter.assemblyFacilites" /></span>
                                 </div>
 
                             </c:if>
@@ -217,7 +217,7 @@
                                     <span class="icon text-white-50">
                                     <i class="fas fa-bicycle"></i>
                                 </span>
-                                    <span class="text">Driveway</span>
+                                    <span class="text"><spring:message code="search.result.filter.driveway" /></span>
                                 </div>
 
                             </c:if>

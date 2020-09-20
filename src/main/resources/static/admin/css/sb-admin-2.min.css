@@ -11675,3 +11675,9 @@ form .card.shadow.mb-4{
 .form-group .error-form{
     color: red;
 }
+.table-id{
+    display: none;
+}
+.display-none{
+    display: none;
+}

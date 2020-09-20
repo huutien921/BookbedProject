@@ -92,7 +92,7 @@
 
                             $('#result').html(s);
                             var mess = '<div class="alert alert-success alert-dismissible">';
-                            mess += '<h4><i class="far fa-trash-alt"></i> Successfully deleted !</h4></div>'
+                            mess += '<h4><i class="far fa-trash-alt"></i> S<spring:message code="default.message.success" /></h4></div>'
                             $('#modalImage .modal-body').html(mess);
                             setTimeout(() => { $("#modalImage").modal('hide') }, 3000)
 
@@ -101,7 +101,7 @@
                         },
                         error: function (err) {
                             var mess = '<div class="alert alert-warning alert-dismissible">';
-                            mess += '<h4><i class="icon fa fa-warning"></i> Fail deleted !</h4></div>'
+                            mess += '<h4><i class="icon fa fa-warning"></i> <spring:message code="default.message.error" /></h4></div>'
                             $('#modalImage .modal-body').html(mess);
                             setTimeout(() => { $("#modalImage").modal('hide') }, 3000)
                         }
@@ -148,7 +148,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalImageTitle">Change</h5>
+                    <h5 class="modal-title" id="modalImageTitle"><spring:message code="partner.hotel.modal.change" /></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -175,7 +175,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header p-2 text-center">
-                    <h3>Edit Room</h3>
+                    <h3><spring:message code="form.r.info" /></h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -189,7 +189,7 @@
 
                             <div class="form-group">
                                 <label for="name">
-                                    hotelname
+                                    <spring:message code="form.r.name" />
                                 </label>
                                 <form:input path="name" class="form-control" />
                                 <small style="color: red;">
@@ -197,21 +197,21 @@
                                 </small>
                             </div>
                             <div class="form-group">
-                                <label for="bedType">bedType</label>
+                                <label for="bedType"><spring:message code="form.r.bedType" /></label>
                                 <form:select path="bedType" class="form-control" items="${bedTypes }" itemLabel="name"
                                     itemValue="id"></form:select>
                             </div>
                             <div class="form-group">
-                                <label for="bedType">roomCategory</label>
+                                <label for="bedType"><spring:message code="form.r.roomCategory" /></label>
                                 <form:select path="roomCategory" class="form-control" items="${roomCategories }"
                                     itemLabel="name" itemValue="id"></form:select>
                             </div>
                             <div class="form-group">
-                                <label for="bedType">roomType</label>
+                                <label for="bedType"><spring:message code="form.r.roomType" /></label>
                                 <form:select path="roomType" class="form-control" items="${roomTypes }" itemLabel="name"
                                     itemValue="id"></form:select>
                             </div>
-                            <label for="price">price</label>
+                            <label for="price"><spring:message code="form.r.price" /></label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
@@ -227,7 +227,7 @@
                             </small>
                             <div class="form-group">
                                 <label for="amountOfBed">
-                                    amountOfBed
+                                    <spring:message code="form.r.amountOfBed" />
                                 </label>
                                 <form:input path="amountOfBed" class="form-control" />
                                 <small style="color: red;">
@@ -237,7 +237,7 @@
 
                             <div class="form-group">
                                 <label for="capacity">
-                                    capacity
+                                    <spring:message code="form.r.capacity" />
                                 </label>
                                 <form:input path="capacity" class="form-control" />
                                 <small style="color: red;">
@@ -247,7 +247,7 @@
 
                             <div class="form-group">
                                 <label for="amountOfRoom">
-                                    amountOfRoom
+                                    <spring:message code="form.r.amountOfRoom" />
                                 </label>
                                 <form:input path="amountOfRoom" class="form-control" />
                                 <small style="color: red;">
@@ -257,14 +257,14 @@
 
                             <div class="form-check">
                                 <form:checkbox path="status" class="form-check-input" />
-                                <label class="form-check-label" for="status">Active</label>
+                                <label class="form-check-label" for="status"><spring:message code="form.r.status" /></label>
                                 <small style="color: red;">
                                     <form:errors path="status"></form:errors>
                                 </small>
                             </div>
 
                             <div class="form-group">
-                                <h5>Anh dai dien Phong</h5>
+                                <h5><spring:message code="form.r.avatar" /></h5>
                                 <br>
                                 <div style="padding-bottom: 1em;">
                                     <img src="${pageContext.request.contextPath }/uploads/images/rooms/${room.srcIcon}"
@@ -279,7 +279,7 @@
                             <!-- image description -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary"> Image description</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary"> <spring:message code="form.r.imageRooms" /></h6>
                                 </div>
 
                                 <div class="row card-body" id="result">
@@ -297,7 +297,7 @@
                             <!-- end image description -->
 
                             <div class="form-group">
-                                <h5>+ Add image description</h5>
+                                <h5><spring:message code="form.r.imageRooms.add" /></h5>
 
                                 <div class="row" id="image_preview">
 
@@ -314,7 +314,7 @@
                                     <form:hidden path="srcIcon" />
                                     <form:hidden path="id" />
 
-                                    <button type="submit" class="btn btn-primary" id="btt">Cap nhat</button>
+                                    <button type="submit" class="btn btn-primary" id="btt"><spring:message code="button.update" /></button>
                                 </div>
                             </div>
 
