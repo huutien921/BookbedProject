@@ -78,7 +78,7 @@
 
         <a href="${pageContext.request.contextPath }/partnerManager/edit/${hotel.id}" class="btn btn-danger btn-block"><b>
             <i class="fas fa-edit"></i>  <spring:message code="button.update" /></b></a>
-                <a href="${pageContext.request.contextPath }/partnerManager/edit/${hotel.id}" class="btn btn-primary btn-block"><b>
+                <a href="${pageContext.request.contextPath }/roomManager/create/${hotel.id}" class="btn btn-primary btn-block"><b>
                     <i class="fas fa-plus"></i>   <spring:message code="button.addRoom" /></b></a>
     </div>
     <!-- /.card-body -->
